@@ -2,7 +2,9 @@ package org.concord.geniverse.client;
 
 import java.io.Serializable;
 
-public class GOrganism implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class GOrganism implements Serializable, IsSerializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int sex;

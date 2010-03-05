@@ -6,7 +6,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -80,7 +79,7 @@ public class Geniverse implements EntryPoint {
 				generateDragon();
 			}
 
-			
+
 		}
 
 		// Add a handler to send the name to the server
@@ -88,7 +87,7 @@ public class Geniverse implements EntryPoint {
 		generateButton.addClickHandler(handler);
 		publish();
 	}
-	
+
 	/**
 	 * Send the name from the nameField to the server and wait for a response.
 	 */
@@ -96,12 +95,16 @@ public class Geniverse implements EntryPoint {
 		generateButton.setEnabled(false);
 		organismSvc.getOrganism(new MyAsyncCallback());
 	}
-	
+
 	public static void generateDragonWithAlleleString(int sex, String allele) {
 		generateButton.setEnabled(false);
 		organismSvc.getOrganism(sex, allele, new MyAsyncCallback());
 	}
-	
+
+	public static void generateDragonWithCallback(AsyncCallback<GOrganism> callback) {
+		organismSvc.getOrganism(callback);
+	}
+
 	public static class MyAsyncCallback implements AsyncCallback<GOrganism> {
 
 		public void onFailure(Throwable caught) {
@@ -133,18 +136,21 @@ public class Geniverse implements EntryPoint {
 		}
 	}
 
-	  /*
-	   *  Set up the JS-callable signature as a global JS function. Basically this
-	   *  provides an easy way to publish static methods as JavaScript methods.
-	   */
-	  private native void publish() /*-{
+	/*
+	 *  Set up the JS-callable signature as a global JS function. Basically this
+	 *  provides an easy way to publish static methods as JavaScript methods.
+	 */
+	private native void publish() /*-{
 	    $wnd.generateDragon = 
-	      this.@org.concord.geniverse.client.Geniverse::generateDragon();
-	      
-	    
-//	    $wnd.generateDragonWithAlleleString = 
-//	      this.@org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(I; Ljava/lang/String);
-	      
+	      @org.concord.geniverse.client.Geniverse::generateDragon();
+
+	    $wnd.generateDragonWithCallback = 
+	      @org.concord.geniverse.client.Geniverse::generateDragonWithCallback(Lcom/google/gwt/user/client/rpc/AsyncCallback;);
+
+
+	    $wnd.generateDragonWithAlleleString = 
+	      @org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(ILjava/lang/String;);
+
 	  }-*/;
 
 }
