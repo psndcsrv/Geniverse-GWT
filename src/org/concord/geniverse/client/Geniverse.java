@@ -6,6 +6,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -18,13 +19,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Geniverse implements EntryPoint {
-	private OrganismServiceAsync organismSvc = GWT.create(OrganismService.class);
+	private static OrganismServiceAsync organismSvc = GWT.create(OrganismService.class);
+	private static Button generateButton;
+	private static Label dragonGenomeLabel;
+	private static HTML characteristicsLabel;
+	private static DialogBox dialogBox;
+	private static Button closeButton;
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button generateButton = new Button("Generate Dragon");
+		generateButton = new Button("Generate Dragon");
 
 		// We can add style names to widgets
 		generateButton.addStyleName("sendButton");
@@ -37,14 +43,14 @@ public class Geniverse implements EntryPoint {
 		generateButton.setFocus(true);
 
 		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
+		dialogBox = new DialogBox();
 		dialogBox.setText("Your Dragon");
 		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
+		closeButton = new Button("Close");
 		// We can set the id of a widget by accessing its Element
 		closeButton.getElement().setId("closeButton");
-		final Label dragonGenomeLabel = new Label();
-		final HTML characteristicsLabel = new HTML();
+		dragonGenomeLabel = new Label();
+		characteristicsLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
 		dialogVPanel.add(new HTML("<b>You've generated a dragon!</b>"));
@@ -74,48 +80,71 @@ public class Geniverse implements EntryPoint {
 				generateDragon();
 			}
 
-			/**
-			 * Send the name from the nameField to the server and wait for a response.
-			 */
-			private void generateDragon() {
-				generateButton.setEnabled(false);
-
-				organismSvc.getOrganism(new AsyncCallback<GOrganism>() {
-
-					public void onFailure(Throwable caught) {
-						dragonGenomeLabel.addStyleName("serverResponseLabelError");
-						dragonGenomeLabel.setText(caught.toString());
-						dialogBox.center();
-					}
-
-					public void onSuccess(GOrganism result) {
-						dragonGenomeLabel.removeStyleName("serverResponseLabelError");
-						dragonGenomeLabel.setText(result.getAlleles());
-						organismSvc.getPhenotypes(result, new AsyncCallback<ArrayList<String>>() {
-
-							public void onFailure(Throwable caught) {
-								characteristicsLabel.setText("unknown characteristics");
-							}
-
-							public void onSuccess(ArrayList<String> result) {
-								String charList = "<p>";
-								for (String ch : result) {
-									charList += (ch + "<br/>");
-								}
-								charList += "</p>";
-								characteristicsLabel.setHTML(charList);
-								dialogBox.center();
-							}
-
-						});
-					}
-				});
-
-			}
+			
 		}
 
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		generateButton.addClickHandler(handler);
+		publish();
 	}
+	
+	/**
+	 * Send the name from the nameField to the server and wait for a response.
+	 */
+	public static void generateDragon() {
+		generateButton.setEnabled(false);
+		organismSvc.getOrganism(new MyAsyncCallback());
+	}
+	
+	public static void generateDragonWithAlleleString(int sex, String allele) {
+		generateButton.setEnabled(false);
+		organismSvc.getOrganism(sex, allele, new MyAsyncCallback());
+	}
+	
+	public static class MyAsyncCallback implements AsyncCallback<GOrganism> {
+
+		public void onFailure(Throwable caught) {
+			dragonGenomeLabel.addStyleName("serverResponseLabelError");
+			dragonGenomeLabel.setText(caught.toString());
+			dialogBox.center();
+		}
+
+		public void onSuccess(GOrganism result) {
+			dragonGenomeLabel.removeStyleName("serverResponseLabelError");
+			dragonGenomeLabel.setText(result.getAlleles());
+			organismSvc.getPhenotypes(result, new AsyncCallback<ArrayList<String>>() {
+
+				public void onFailure(Throwable caught) {
+					characteristicsLabel.setText("unknown characteristics");
+				}
+
+				public void onSuccess(ArrayList<String> result) {
+					String charList = "<p>";
+					for (String ch : result) {
+						charList += (ch + "<br/>");
+					}
+					charList += "</p>";
+					characteristicsLabel.setHTML(charList);
+					dialogBox.center();
+				}
+
+			});
+		}
+	}
+
+	  /*
+	   *  Set up the JS-callable signature as a global JS function. Basically this
+	   *  provides an easy way to publish static methods as JavaScript methods.
+	   */
+	  private native void publish() /*-{
+	    $wnd.generateDragon = 
+	      this.@org.concord.geniverse.client.Geniverse::generateDragon();
+	      
+	    
+//	    $wnd.generateDragonWithAlleleString = 
+//	      this.@org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(I; Ljava/lang/String);
+	      
+	  }-*/;
+
 }

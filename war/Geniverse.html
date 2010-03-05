@@ -26,6 +26,15 @@
     <!-- be added before this line.                -->
     <!--                                           -->
     <script type="text/javascript" language="javascript" src="geniverse/geniverse.nocache.js"></script>
+    <script type="text/javascript" language="javascript">
+    	function generate(){
+    		generateDragon()
+    	}
+    	
+    	function ganerate2(){
+    		generateDragonWithAlleleString(1, "a:h,b:h")
+    	}
+    </script>
   </head>
 
   <!--                                           -->
@@ -34,7 +43,6 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
-
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
 
@@ -42,12 +50,12 @@
 
     <table align="center">
       <tr>
-        <td colspan="2" style="font-weight:bold;">Please enter your name:</td>        
-      </tr>
-      <tr>
         <td id="nameFieldContainer"></td>
         <td id="sendButtonContainer"></td>
       </tr>
     </table>
+    <div style="text-align: center;">
+    	Script button: <b> <a href="javascript:generate();">test</a> </b>
+    </div>
   </body>
 </html>
