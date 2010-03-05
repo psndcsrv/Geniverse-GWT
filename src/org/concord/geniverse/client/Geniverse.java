@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -101,8 +102,23 @@ public class Geniverse implements EntryPoint {
 		organismSvc.getOrganism(sex, allele, new MyAsyncCallback());
 	}
 
-	public static void generateDragonWithCallback(AsyncCallback<GOrganism> callback) {
+	public static void generateDragonWithCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
 		organismSvc.getOrganism(callback);
+	}
+
+
+	public static AsyncCallback<GOrganism> createGOrganismCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<GOrganism> callback = new AsyncCallback<GOrganism>() {
+			public void onFailure(Throwable caught) {
+				callFunc(failureFunction, caught);
+			}
+
+			public void onSuccess(GOrganism result) {
+				callFunc(successFunction, result);
+			}
+		};
+		return callback;
 	}
 
 	public static class MyAsyncCallback implements AsyncCallback<GOrganism> {
@@ -136,6 +152,10 @@ public class Geniverse implements EntryPoint {
 		}
 	}
 
+	private static native void callFunc(JavaScriptObject func, Object arg) /*-{
+	  func(arg);
+	}-*/;
+
 	/*
 	 *  Set up the JS-callable signature as a global JS function. Basically this
 	 *  provides an easy way to publish static methods as JavaScript methods.
@@ -145,7 +165,7 @@ public class Geniverse implements EntryPoint {
 	      @org.concord.geniverse.client.Geniverse::generateDragon();
 
 	    $wnd.generateDragonWithCallback = 
-	      @org.concord.geniverse.client.Geniverse::generateDragonWithCallback(Lcom/google/gwt/user/client/rpc/AsyncCallback;);
+	      @org.concord.geniverse.client.Geniverse::generateDragonWithCallback(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 
 	    $wnd.generateDragonWithAlleleString = 
