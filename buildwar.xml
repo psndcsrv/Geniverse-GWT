@@ -1,0 +1,15 @@
+<project name="genivers" basedir="." default="default">
+ 
+	<target name="default" depends="buildwar,deploy"></target>
+ 
+	<target name="buildwar">
+		<war basedir="war" destfile="geniverse.war" webxml="war/WEB-INF/web.xml">
+			<webinf dir="war/WEB-INF/" />
+		</war>
+	</target>
+ 
+	<target name="deploy">
+		<copy file="geniverse.war" todir="." />
+	</target>
+ 
+</project>
