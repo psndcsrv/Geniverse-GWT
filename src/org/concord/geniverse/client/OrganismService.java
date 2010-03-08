@@ -14,5 +14,5 @@ public interface OrganismService extends RemoteService {
 	String getOrganismImageURL();
 	String getOrganismImageURL(GOrganism organism, int imageSize);
 
-	ArrayList<String> getPhenotypes(GOrganism gOrg);
+	ArrayList<String> getOrganismPhenotypes(GOrganism gOrg);
 }

@@ -57,7 +57,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		return createGOrg(dragon);
 	}
 
-	public ArrayList<String> getPhenotypes(GOrganism gOrg) {
+	public ArrayList<String> getOrganismPhenotypes(GOrganism gOrg) {
 		ArrayList<String> phenotypes = new ArrayList<String>();
 		Organism org = createOrg(gOrg);
 		Enumeration<Characteristic> chars = org.getCharacteristics();

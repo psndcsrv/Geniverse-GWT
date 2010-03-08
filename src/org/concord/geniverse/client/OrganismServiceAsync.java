@@ -8,7 +8,8 @@ public interface OrganismServiceAsync {
 	void getOrganism(AsyncCallback<GOrganism> callback);
 	void getOrganism(int sex, String alleles, AsyncCallback<GOrganism> callback);
 	void getOrganism(int sex, AsyncCallback<GOrganism> callback);
-	void getPhenotypes(GOrganism gOrg, AsyncCallback<ArrayList<String>> callback);
 	void getOrganismImageURL(GOrganism organism, int imageSize, AsyncCallback<String> callback);
 	void getOrganismImageURL(AsyncCallback<String> callback);
+	void getOrganismPhenotypes(GOrganism gOrg,
+			AsyncCallback<ArrayList<String>> callback);
 }
