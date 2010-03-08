@@ -69,7 +69,6 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	}
 
 	public String getOrganismImageURL() {
-		logger.info("Call to getOrganismImageURL()");
 		try {
 			return getOrganismImageURL(getOrganism(), SpeciesImage.XLARGE_IMAGE_SIZE);
 		} catch(Exception e) {
@@ -78,35 +77,24 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	}
 
 	public String getOrganismImageURL(GOrganism organism, int imageSize) {
-		logger.info("Call to getOrganismImageURL(GOrganism, int)");
-		logger.info("Params were: " + organism + ", " + imageSize);
 		Organism dragon = createOrg(organism);
-		logger.info("Got dragon: " + dragon);
 		String filename = generateFilename(dragon);
-		logger.info("Got filename: " + filename);
 		ServletContext context = getServletContext();
-		logger.info("Got context: " + context);
 		String realpath = context.getRealPath("/cache/" + filename);
-		logger.info("Got realpath: " + realpath);
 
 		if (realpath == null) {
 			String url = context.getContextPath() + "/cache/unknown.png";
-			logger.info("Realpath was null! Returning " + url);
 			return url;
 		}
 
 		File outputfile = new File(realpath);
 		if (! outputfile.exists()) {
-			logger.info("Organism image doesn't exist! Creating...");
 			try {
 				StaticOrganismView view = new StaticOrganismView();
 				view.setOrganism(dragon);
-				logger.info("Got the static organism view");
 				try {
 					BufferedImage image = view.getOrganismImage(dragon, imageSize);
-					logger.info("Got the Buffered Image");
 					ImageIO.write(image, "png", outputfile);
-					logger.info("Wrote the image!");
 				} catch (java.lang.ExceptionInInitializerError e) {
 					logger.log(Level.SEVERE, "Couldn't generate a buffered image!", e);
 				}
