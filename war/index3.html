@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src='http://geniverse.dev.concord.org/demo/jquery-1.4.js'></script>
+    <script type="text/javascript">
+      function getOrg() {
+        var url = '/geniverse/geniverse/organism';
+        // var data = '5|0|4|http://otto:28080/geniverse/geniverse/|E3AE3DC3224437FAE4F4A1651811CF22|org.concord.geniverse.client.OrganismService|getOrganism|1|2|3|4|0|';
+           var data = '5|0|5|http://otto:28080/geniverse/geniverse/|E3AE3DC3224437FAE4F4A1651811CF22|org.concord.geniverse.client.OrganismService|getOrganism|I|1|2|3|4|1|5|1|';
+        // var data = '5|0|8|http://otto:28080/geniverse/geniverse/|E3AE3DC3224437FAE4F4A1651811CF22|org.concord.geniverse.client.OrganismService|getPhenotypes|org.concord.geniverse.client.GOrganism|org.concord.geniverse.client.GOrganism/631920327|b:h,a:h,b:S,a:S,b:W,a:W,b:L,a:l,b:t,a:t,a:p,a:f,a:A,a:B|Organism 12|1|2|3|4|1|5|6|7|8|0|';
+        $.ajax({type: 'POST', dataType: "html", url: url, data: data, success: callback, error: error, contentType: 'text/x-gwt-rpc'});
+      }
+      function error(data) {
+        alert("Error! " + data);
+      }
+      function callback(data) {
+        document.getElementById('orginfo').innerHTML = data;
+      }
+    </script>
+   </head>
+  <body>
+    <a href="#" onClick='getOrg();' >Click</a>
+    <div id="orginfo">No org info</div>
+  </body>
+</html>
