@@ -55,11 +55,35 @@
     	  getRandomDragonImageURL(onSuccess, onFailure);
     	}
     	
+    	function getDragonChars() {
+    	  if (dragon == null) {
+    	    document.getElementById("dragon_characteristics").innerHTML = "Need to get a dragon first...";
+    	    return;
+    	  }
+    	  document.getElementById("dragon_characteristics").innerHTML = "Getting characteristics..."
+    	  var onSuccess = function(arraylist) {
+    	      var characteristics = arraylist.array;
+    	      document.getElementById("dragon_characteristics").innerHTML = "Tabulating characteristics..." + arraylist
+    	      var out = "<ul>";
+    	      for(var i = 0; i < characteristics.length; i++) {
+    	        out += "<li>" + characteristics[i] + "</li>";
+    	      }
+    	      out += "</ul>";
+    	      document.getElementById("dragon_characteristics").innerHTML = out;
+    	    };
+    	  var onFailure = function(throwable) {
+    	      document.getElementById("dragon_characteristics").innerHTML = "Error getting dragon characteristics: " + throwable;
+    	    };
+    	  getDragonCharacteristics(dragon, onSuccess, onFailure);
+    	}
+    	
     	function getDragon() {
     	  document.getElementById("dragon_info").innerHTML = "Getting info..."
     	  var onSuccess = function(organism) {
     	      dragon = organism;
     	      document.getElementById("dragon_info").innerHTML = "Alleles: " + organism.alleles;
+    	      getDragonChars();
+    	      getDragonImage();
     	    };
     	  var onFailure = function(throwable) {
     	      dragon = null;
@@ -92,15 +116,10 @@
       </tr>
     </table>
     <div style="text-align: center;">
-    	Script button: <b> <a href="javascript:getDragon();">get dragon</a> </b>
-    </div>
-    <div style="text-align: center;">
-    	Script button: <b> <a href="javascript:getDragonImage();">get dragon image</a> </b>
-    </div>
-    <div style="text-align: center;">
-    	Script button: <b> <a href="javascript:getRandomDragonImage();">get random dragon image</a> </b>
+    	Script button: <b> <a href="javascript:getDragon();">get dragon, characteristics, and image</a> </b>
     </div>
     	<div id="dragon_info" style="text-align: center;"> No dragon info</div>
+    	<div id="dragon_characteristics" style="text-align: center;">No dragon characteristics</div>
     	<div id="dragon_image" style="text-align: center;"> No dragon image</div>
   </body>
 </html>
