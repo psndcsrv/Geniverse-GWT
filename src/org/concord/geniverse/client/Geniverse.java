@@ -107,6 +107,16 @@ public class Geniverse implements EntryPoint {
 		organismSvc.getOrganism(callback);
 	}
 
+	public static void getDragonImageURL(GOrganism org, int imageSize, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<String> callback = createStringCallback(successFunction, failureFunction);
+		organismSvc.getOrganismImageURL(org, imageSize, callback);
+	}
+
+	public static void getRandomDragonImageURL(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<String> callback = createStringCallback(successFunction, failureFunction);
+		organismSvc.getOrganismImageURL(callback);
+	}
+
 
 	public static AsyncCallback<GOrganism> createGOrganismCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
 		AsyncCallback<GOrganism> callback = new AsyncCallback<GOrganism>() {
@@ -115,6 +125,19 @@ public class Geniverse implements EntryPoint {
 			}
 
 			public void onSuccess(GOrganism result) {
+				callFunc(successFunction, result);
+			}
+		};
+		return callback;
+	}
+
+	public static AsyncCallback<String> createStringCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<String> callback = new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				callFunc(failureFunction, caught);
+			}
+
+			public void onSuccess(String result) {
 				callFunc(successFunction, result);
 			}
 		};
@@ -167,6 +190,11 @@ public class Geniverse implements EntryPoint {
 	    $wnd.generateDragonWithCallback = 
 	      @org.concord.geniverse.client.Geniverse::generateDragonWithCallback(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
+        $wnd.getDragonImageURL = 
+	      @org.concord.geniverse.client.Geniverse::getDragonImageURL(Lorg/concord/geniverse/client/GOrganism;ILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+
+	     $wnd.getRandomDragonImageURL = 
+	      @org.concord.geniverse.client.Geniverse::getRandomDragonImageURL(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 	    $wnd.generateDragonWithAlleleString = 
 	      @org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(ILjava/lang/String;);
