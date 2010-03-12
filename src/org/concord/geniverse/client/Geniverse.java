@@ -121,7 +121,11 @@ public class Geniverse implements EntryPoint {
 		AsyncCallback<ArrayList<String>> callback = createStringArrayListCallback(sucessFunction, failureFunction);
 		organismSvc.getOrganismPhenotypes(gOrg, callback);
 	}
-
+	
+	public static void breedDragon(GOrganism org1, GOrganism org2, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
+		organismSvc.breedOrganism(org1, org2, callback);
+	}
 
 	public static AsyncCallback<GOrganism> createGOrganismCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
 		AsyncCallback<GOrganism> callback = new AsyncCallback<GOrganism>() {
@@ -219,6 +223,9 @@ public class Geniverse implements EntryPoint {
 
 	    $wnd.generateDragonWithAlleleString = 
 	      @org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(ILjava/lang/String;);
+	      
+	    $wnd.breedDragon = 
+	      @org.concord.geniverse.client.Geniverse::breedDragon(Lorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 	  }-*/;
 

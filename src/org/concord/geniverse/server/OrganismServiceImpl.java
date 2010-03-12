@@ -111,4 +111,16 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	private String generateFilename(Organism org) {
 		return org.getAlleleString(true) + ".png";
 	}
+
+	public GOrganism breedOrganism(GOrganism gorg1, GOrganism gorg2) {
+		Organism org1 = createOrg(gorg1);
+		Organism org2 = createOrg(gorg2);
+		try {
+			Organism child = new Organism(org1, org2, "child");
+			return createGOrg(child);
+		} catch (IllegalArgumentException e){
+			logger.log(Level.SEVERE, "Could not breed these organisms!", e);
+			return null;
+		}
+	}
 }

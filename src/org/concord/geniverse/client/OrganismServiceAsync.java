@@ -12,4 +12,6 @@ public interface OrganismServiceAsync {
 	void getOrganismImageURL(AsyncCallback<String> callback);
 	void getOrganismPhenotypes(GOrganism gOrg,
 			AsyncCallback<ArrayList<String>> callback);
+	void breedOrganism(GOrganism org1, GOrganism org2,
+			AsyncCallback<GOrganism> callback);
 }
