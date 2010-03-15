@@ -226,7 +226,9 @@ public class Geniverse implements EntryPoint {
 	      
 	    $wnd.breedDragon = 
 	      @org.concord.geniverse.client.Geniverse::breedDragon(Lorg/concord/geniverse/client/IOrganism;Lorg/concord/geniverse/client/IOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
-
+		
+		$wnd.getJSOrganismFromJSONString =
+		  @org.concord.geniverse.client.JSOrganism::getJSOrganismFromJSONString(Ljava/lang/String;);
 	  }-*/;
 
 }

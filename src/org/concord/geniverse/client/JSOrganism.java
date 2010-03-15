@@ -14,7 +14,7 @@ public class JSOrganism extends JavaScriptObject implements IOrganism, Serializa
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static native JSOrganism fromJSONString(String jsonString) /*-{
+	public static native JSOrganism getJSOrganismFromJSONString(String jsonString) /*-{
 		return eval('('+jsonString+')');
 	}-*/;
 
