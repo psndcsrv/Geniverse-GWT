@@ -103,11 +103,11 @@ public class Geniverse implements EntryPoint {
 	}
 
 	public static void generateDragonWithCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
-		AsyncCallback<IOrganism> callback = createIOrganismCallback(successFunction, failureFunction);
+		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
 		organismSvc.getOrganism(callback);
 	}
 
-	public static void getDragonImageURL(IOrganism org, int imageSize, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+	public static void getDragonImageURL(GOrganism org, int imageSize, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
 		AsyncCallback<String> callback = createStringCallback(successFunction, failureFunction);
 		organismSvc.getOrganismImageURL(org, imageSize, callback);
 	}
@@ -117,23 +117,23 @@ public class Geniverse implements EntryPoint {
 		organismSvc.getOrganismImageURL(callback);
 	}
 
-	public static void getDragonCharacteristics(IOrganism gOrg, final JavaScriptObject sucessFunction, final JavaScriptObject failureFunction) {
+	public static void getDragonCharacteristics(GOrganism gOrg, final JavaScriptObject sucessFunction, final JavaScriptObject failureFunction) {
 		AsyncCallback<ArrayList<String>> callback = createStringArrayListCallback(sucessFunction, failureFunction);
 		organismSvc.getOrganismPhenotypes(gOrg, callback);
 	}
 	
-	public static void breedDragon(IOrganism org1, IOrganism org2, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
-		AsyncCallback<IOrganism> callback = createIOrganismCallback(successFunction, failureFunction);
+	public static void breedDragon(GOrganism org1, GOrganism org2, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
 		organismSvc.breedOrganism(org1, org2, callback);
 	}
 
-	public static AsyncCallback<IOrganism> createIOrganismCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
-		AsyncCallback<IOrganism> callback = new AsyncCallback<IOrganism>() {
+	public static AsyncCallback<GOrganism> createGOrganismCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		AsyncCallback<GOrganism> callback = new AsyncCallback<GOrganism>() {
 			public void onFailure(Throwable caught) {
 				callFunc(failureFunction, caught);
 			}
 
-			public void onSuccess(IOrganism result) {
+			public void onSuccess(GOrganism result) {
 				callFunc(successFunction, result);
 			}
 		};
@@ -166,7 +166,7 @@ public class Geniverse implements EntryPoint {
 		return callback;
 	}
 
-	public static class MyAsyncCallback implements AsyncCallback<IOrganism> {
+	public static class MyAsyncCallback implements AsyncCallback<GOrganism> {
 
 		public void onFailure(Throwable caught) {
 			dragonGenomeLabel.addStyleName("serverResponseLabelError");
@@ -174,7 +174,7 @@ public class Geniverse implements EntryPoint {
 			dialogBox.center();
 		}
 
-		public void onSuccess(IOrganism result) {
+		public void onSuccess(GOrganism result) {
 			dragonGenomeLabel.removeStyleName("serverResponseLabelError");
 			dragonGenomeLabel.setText(result.getAlleles());
 			organismSvc.getOrganismPhenotypes(result, new AsyncCallback<ArrayList<String>>() {
@@ -213,22 +213,22 @@ public class Geniverse implements EntryPoint {
 	      @org.concord.geniverse.client.Geniverse::generateDragonWithCallback(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
         $wnd.getDragonImageURL = 
-	      @org.concord.geniverse.client.Geniverse::getDragonImageURL(Lorg/concord/geniverse/client/IOrganism;ILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+	      @org.concord.geniverse.client.Geniverse::getDragonImageURL(Lorg/concord/geniverse/client/GOrganism;ILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 	    $wnd.getRandomDragonImageURL = 
 	      @org.concord.geniverse.client.Geniverse::getRandomDragonImageURL(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 		$wnd.getDragonCharacteristics = 
-	      @org.concord.geniverse.client.Geniverse::getDragonCharacteristics(Lorg/concord/geniverse/client/IOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+	      @org.concord.geniverse.client.Geniverse::getDragonCharacteristics(Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 	    $wnd.generateDragonWithAlleleString = 
 	      @org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(ILjava/lang/String;);
 	      
 	    $wnd.breedDragon = 
-	      @org.concord.geniverse.client.Geniverse::breedDragon(Lorg/concord/geniverse/client/IOrganism;Lorg/concord/geniverse/client/IOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+	      @org.concord.geniverse.client.Geniverse::breedDragon(Lorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 		
-		$wnd.getJSOrganismFromJSONString =
-		  @org.concord.geniverse.client.JSOrganism::getJSOrganismFromJSONString(Ljava/lang/String;);
+		$wnd.getGOrganismFromJSONString =
+		  @org.concord.geniverse.client.GOrganism::new(Ljava/lang/String;);
 	  }-*/;
 
 }

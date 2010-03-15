@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class GOrganism implements IOrganism, Serializable, IsSerializable {
+public class GOrganism implements Serializable, IsSerializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int sex;
@@ -14,6 +14,21 @@ public class GOrganism implements IOrganism, Serializable, IsSerializable {
 	private String imageURL;
 	private ArrayList<String> characteristics;
 	private HashMap<String, Object> metaInfo = new HashMap<String, Object>();
+	
+	public GOrganism(){
+		
+	}
+	
+	public GOrganism(String jsonString){
+		this(JSOrganism.getJSOrganismFromJSONString(jsonString));
+	}
+	
+	public GOrganism(JSOrganism jsOrg){
+		setName(jsOrg.getName());
+		setAlleles(jsOrg.getAlleles());
+		setSex(jsOrg.getSex());
+		setImageURL(jsOrg.getImageURL());
+	}
 
 	public void setName(String name) {
 		this.name = name;

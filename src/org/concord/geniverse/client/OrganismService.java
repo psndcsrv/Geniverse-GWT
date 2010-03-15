@@ -7,13 +7,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("organism")
 public interface OrganismService extends RemoteService {
-	IOrganism getOrganism();
-	IOrganism getOrganism(int sex);
-	IOrganism getOrganism(int sex, String alleles);
+	GOrganism getOrganism();
+	GOrganism getOrganism(int sex);
+	GOrganism getOrganism(int sex, String alleles);
 
 	String getOrganismImageURL();
-	String getOrganismImageURL(IOrganism organism, int imageSize);
+	String getOrganismImageURL(GOrganism organism, int imageSize);
 
-	ArrayList<String> getOrganismPhenotypes(IOrganism gOrg);
-	IOrganism breedOrganism(IOrganism org1, IOrganism org2);
+	ArrayList<String> getOrganismPhenotypes(GOrganism gOrg);
+	GOrganism breedOrganism(GOrganism org1, GOrganism org2);
 }

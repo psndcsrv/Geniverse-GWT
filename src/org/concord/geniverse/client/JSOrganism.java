@@ -1,13 +1,11 @@
 package org.concord.geniverse.client;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class JSOrganism extends JavaScriptObject implements IOrganism, Serializable, IsSerializable {
+public class JSOrganism extends JavaScriptObject {
 	
 	/**
 	 * 
@@ -34,44 +32,14 @@ public class JSOrganism extends JavaScriptObject implements IOrganism, Serializa
 		return this.sex;
 	}-*/;
 
-	// Not implemented yet
-	public native ArrayList<String> getCharacteristics() /*-{
-		return null;
-	}-*/;
-
-	// Not implemented yet
-	public native HashMap<String, Object> getMetaInfo() /*-{
-		return null;
-	}-*/;
-	
-	public void setAlleles(String alleles) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setCharacteristics(ArrayList<String> characteristics) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setImageURL(String imageURL) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setMetaInfo(HashMap<String, Object> metaInfo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setName(String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setSex(int sex) {
-		// TODO Auto-generated method stub
-
-	}
+//	// Not implemented yet
+//	public native ArrayList<String> getCharacteristics() /*-{
+//		return null;
+//	}-*/;
+//
+//	// Not implemented yet
+//	public native HashMap<String, Object> getMetaInfo() /*-{
+//		return null;
+//	}-*/;
 
 }
