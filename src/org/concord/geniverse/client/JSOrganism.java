@@ -35,10 +35,14 @@ public class JSOrganism extends JavaScriptObject implements IOrganism, Serializa
 	}-*/;
 
 	// Not implemented yet
-	public native ArrayList<String> getCharacteristics();
+	public native ArrayList<String> getCharacteristics() /*-{
+		return null;
+	}-*/;
 
 	// Not implemented yet
-	public native HashMap<String, Object> getMetaInfo();
+	public native HashMap<String, Object> getMetaInfo() /*-{
+		return null;
+	}-*/;
 	
 	public void setAlleles(String alleles) {
 		// TODO Auto-generated method stub
