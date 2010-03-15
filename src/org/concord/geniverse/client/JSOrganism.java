@@ -7,37 +7,31 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class JSOrganism extends JavaScriptObject implements IOrganism {
 	
-	public static native JSOrganism fromJSONString(String jsonString) /* -{
+	public static native JSOrganism fromJSONString(String jsonString) /*-{
 		return eval('('+jsonString+')');
 	}-*/;
 
-	public native String getAlleles() /* -{
+	public native String getAlleles() /*-{
 		return this.alleles;
 	}-*/;
 
-	public native String getImageURL() /* -{
+	public native String getImageURL() /*-{
 		return this.imageURL;
 	}-*/;
 
-	public native String getName() /* -{
+	public native String getName() /*-{
 		return this.name_0;
 	}-*/;
 
-	public native int getSex() /* -{
+	public native int getSex() /*-{
 		return this.sex;
 	}-*/;
 
 	// Not implemented yet
-	public ArrayList<String> getCharacteristics() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public native ArrayList<String> getCharacteristics();
 
 	// Not implemented yet
-	public HashMap<String, Object> getMetaInfo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public native HashMap<String, Object> getMetaInfo();
 	
 	public void setAlleles(String alleles) {
 		// TODO Auto-generated method stub
