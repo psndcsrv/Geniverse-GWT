@@ -1,12 +1,19 @@
 package org.concord.geniverse.client;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class JSOrganism extends JavaScriptObject implements IOrganism {
+public class JSOrganism extends JavaScriptObject implements IOrganism, Serializable, IsSerializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static native JSOrganism fromJSONString(String jsonString) /*-{
 		return eval('('+jsonString+')');
 	}-*/;
