@@ -18,6 +18,7 @@ import org.concord.biologica.engine.SpeciesImage;
 import org.concord.biologica.engine.World;
 import org.concord.biologica.ui.StaticOrganismView;
 import org.concord.geniverse.client.GOrganism;
+import org.concord.geniverse.client.IOrganism;
 import org.concord.geniverse.client.OrganismService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -29,35 +30,35 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	private static Species species = world.getCurrentSpecies();
 	private static int currentDragonNumber = 0;
 
-	private GOrganism createGOrg(Organism org) {
-		GOrganism gOrg = new GOrganism();
+	private IOrganism createGOrg(Organism org) {
+		IOrganism gOrg = new GOrganism();
 		gOrg.setName(org.getName());
 		gOrg.setSex(org.getSex());
 		gOrg.setAlleles(org.getAlleleString());
 		return gOrg;
 	}
 
-	private Organism createOrg(GOrganism gOrg) {
+	private Organism createOrg(IOrganism gOrg) {
 		Organism org = new Organism(world, gOrg.getName(), species, gOrg.getSex(), gOrg.getAlleles());
 		return org;
 	}
 
-	public GOrganism getOrganism(int sex) {
+	public IOrganism getOrganism(int sex) {
 		Organism dragon = new Organism(world, sex, "Organism " + (++currentDragonNumber), world.getCurrentSpecies());
 		return createGOrg(dragon);
 	}
 
-	public GOrganism getOrganism(int sex, String alleles) {
+	public IOrganism getOrganism(int sex, String alleles) {
 		Organism dragon = new Organism(world, "Organism " + (++currentDragonNumber), world.getCurrentSpecies(), sex, alleles) ;
 		return createGOrg(dragon);
 	}
 
-	public GOrganism getOrganism() {
+	public IOrganism getOrganism() {
 		Organism dragon = new Organism(world, Organism.RANDOM_SEX, "Organism " + (++currentDragonNumber), world.getCurrentSpecies());
 		return createGOrg(dragon);
 	}
 
-	public ArrayList<String> getOrganismPhenotypes(GOrganism gOrg) {
+	public ArrayList<String> getOrganismPhenotypes(IOrganism gOrg) {
 		ArrayList<String> phenotypes = new ArrayList<String>();
 		Organism org = createOrg(gOrg);
 		Enumeration<Characteristic> chars = org.getCharacteristics();
@@ -76,7 +77,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		}
 	}
 
-	public String getOrganismImageURL(GOrganism organism, int imageSize) {
+	public String getOrganismImageURL(IOrganism organism, int imageSize) {
 		Organism dragon = createOrg(organism);
 		String filename = generateFilename(dragon);
 		ServletContext context = getServletContext();
@@ -112,7 +113,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		return org.getAlleleString(true) + ".png";
 	}
 
-	public GOrganism breedOrganism(GOrganism gorg1, GOrganism gorg2) {
+	public IOrganism breedOrganism(IOrganism gorg1, IOrganism gorg2) {
 		Organism org1 = createOrg(gorg1);
 		Organism org2 = createOrg(gorg2);
 		try {
