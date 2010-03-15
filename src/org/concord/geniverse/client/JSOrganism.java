@@ -5,12 +5,11 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class JSOrganism extends JavaScriptObject {
+final public class JSOrganism extends JavaScriptObject {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	protected JSOrganism(){
+		
+	}
 
 	public static native JSOrganism getJSOrganismFromJSONString(String jsonString) /*-{
 		return eval('('+jsonString+')');
