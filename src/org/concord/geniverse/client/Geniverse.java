@@ -7,6 +7,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -196,6 +201,36 @@ public class Geniverse implements EntryPoint {
 			});
 		}
 	}
+	
+	public static GOrganism createGOrganismFromJSONString(String jsonString){
+		JSONObject jsonOrg = (JSONObject)JSONParser.parse(jsonString);
+		GOrganism gOrg = new GOrganism();
+		gOrg.setName(((JSONString)getValue(jsonOrg, "name_0")).stringValue());
+		gOrg.setAlleles(((JSONString)getValue(jsonOrg, "alleles")).stringValue());
+		gOrg.setSex((int) ((JSONNumber)getValue(jsonOrg, "sex")).doubleValue());
+		gOrg.setImageURL(((JSONString)getValue(jsonOrg, "imageURL")).stringValue());
+		return gOrg;
+	}
+	
+	/**
+	 * Because we can't be sure how JSON will name the keys, we check all values from
+	 * "key" through to "key_9"
+	 * @param obj
+	 * @param key
+	 * @return
+	 */
+	public static JSONValue getValue(JSONObject obj, String key){
+		JSONValue val = obj.get(key);
+		int i = 0;
+		while (val == null && i < 10){
+			if (key.matches(".*\\d")){
+				val = obj.get(key.substring(0, key.length()-1) + i++);		// ought to check from init value
+			} else {
+				val = obj.get(key + "_" + i++);
+			}
+		}
+		return val;
+	}
 
 	private static native void callFunc(JavaScriptObject func, Object arg) /*-{
 	  func(arg);
@@ -226,7 +261,9 @@ public class Geniverse implements EntryPoint {
 	      
 	    $wnd.breedDragon = 
 	      @org.concord.geniverse.client.Geniverse::breedDragon(Lorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
-
+		
+		$wnd.createGOrganismFromJSONString =
+		  @org.concord.geniverse.client.Geniverse::createGOrganismFromJSONString(Ljava/lang/String;);
 	  }-*/;
 
 }
