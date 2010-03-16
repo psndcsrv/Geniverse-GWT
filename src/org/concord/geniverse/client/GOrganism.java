@@ -14,21 +14,6 @@ public class GOrganism implements Serializable, IsSerializable {
 	private String imageURL;
 	private ArrayList<String> characteristics;
 	private HashMap<String, Object> metaInfo = new HashMap<String, Object>();
-	
-	public GOrganism(){
-		
-	}
-	
-	public GOrganism(String jsonString){
-		this(JSOrganism.getJSOrganismFromJSONString(jsonString));
-	}
-	
-	public GOrganism(JSOrganism jsOrg){
-		setName(jsOrg.getName());
-		setAlleles(jsOrg.getAlleles());
-		setSex(jsOrg.getSex());
-		setImageURL(jsOrg.getImageURL());
-	}
 
 	public void setName(String name) {
 		this.name = name;

@@ -18,7 +18,6 @@ import org.concord.biologica.engine.SpeciesImage;
 import org.concord.biologica.engine.World;
 import org.concord.biologica.ui.StaticOrganismView;
 import org.concord.geniverse.client.GOrganism;
-import org.concord.geniverse.client.GOrganism;
 import org.concord.geniverse.client.OrganismService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
