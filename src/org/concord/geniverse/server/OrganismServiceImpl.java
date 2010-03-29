@@ -34,6 +34,8 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		gOrg.setName(org.getName());
 		gOrg.setSex(org.getSex());
 		gOrg.setAlleles(org.getAlleleString());
+		gOrg.setImageURL(getOrganismImageURL(gOrg, SpeciesImage.XLARGE_IMAGE_SIZE));
+		gOrg.setCharacteristics(getOrganismPhenotypes(gOrg));
 		return gOrg;
 	}
 

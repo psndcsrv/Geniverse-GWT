@@ -101,10 +101,24 @@ public class Geniverse implements EntryPoint {
 		generateButton.setEnabled(false);
 		organismSvc.getOrganism(new MyAsyncCallback());
 	}
+	
+	public static void generateDragonWithAlleleString(String allele, int sex, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		// generateButton.setEnabled(false);
+		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
+		organismSvc.getOrganism(sex, allele, callback);
+	}
 
-	public static void generateDragonWithAlleleString(int sex, String allele) {
-		generateButton.setEnabled(false);
-		organismSvc.getOrganism(sex, allele, new MyAsyncCallback());
+	public static void generateDragonWithAlleleString(String allele, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		// generateButton.setEnabled(false);
+		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
+		int sex = (int) Math.round(Math.random());
+		organismSvc.getOrganism(sex, allele, callback);
+	}
+	
+	public static void generateDragonWithSex(int sex, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+		// generateButton.setEnabled(false);
+		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
+		organismSvc.getOrganism(sex, callback);
 	}
 
 	public static void generateDragonWithCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
@@ -247,6 +261,15 @@ public class Geniverse implements EntryPoint {
 	    $wnd.generateDragonWithCallback = 
 	      @org.concord.geniverse.client.Geniverse::generateDragonWithCallback(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
+	    $wnd.generateDragonWithAlleleString = 
+	      @org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+	      
+	    $wnd.generateDragonWithAlleleStringAndSex = 
+	      @org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(Ljava/lang/String;ILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+	      
+	    $wnd.generateDragonWithSex = 
+	      @org.concord.geniverse.client.Geniverse::generateDragonWithSex(ILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+	      
         $wnd.getDragonImageURL = 
 	      @org.concord.geniverse.client.Geniverse::getDragonImageURL(Lorg/concord/geniverse/client/GOrganism;ILcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
@@ -255,9 +278,6 @@ public class Geniverse implements EntryPoint {
 
 		$wnd.getDragonCharacteristics = 
 	      @org.concord.geniverse.client.Geniverse::getDragonCharacteristics(Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
-
-	    $wnd.generateDragonWithAlleleString = 
-	      @org.concord.geniverse.client.Geniverse::generateDragonWithAlleleString(ILjava/lang/String;);
 	      
 	    $wnd.breedDragon = 
 	      @org.concord.geniverse.client.Geniverse::breedDragon(Lorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
