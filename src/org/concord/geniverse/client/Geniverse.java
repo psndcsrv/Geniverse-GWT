@@ -1,12 +1,14 @@
 package org.concord.geniverse.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.json.client.JSONBoolean;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
@@ -219,12 +221,51 @@ public class Geniverse implements EntryPoint {
 	public static GOrganism createGOrganismFromJSONString(String jsonString){
 		JSONObject jsonOrg = (JSONObject)JSONParser.parse(jsonString);
 		GOrganism gOrg = new GOrganism();
-		gOrg.setName(((JSONString)getValue(jsonOrg, "name_0")).stringValue());
-		gOrg.setAlleles(((JSONString)getValue(jsonOrg, "alleles")).stringValue());
-		gOrg.setSex((int) ((JSONNumber)getValue(jsonOrg, "sex")).doubleValue());
-		gOrg.setImageURL(((JSONString)getValue(jsonOrg, "imageURL")).stringValue());
+		gOrg.setName(getStringValue(jsonOrg, "name_0"));
+		gOrg.setAlleles(getStringValue(jsonOrg, "alleles"));
+		gOrg.setSex((int)getDoubleValue(jsonOrg, "sex"));
+		gOrg.setImageURL(getStringValue(jsonOrg, "imageURL"));
+		gOrg.setMetaInfo(getHashMapValue(jsonOrg, "metaInfo"));
 		return gOrg;
 	}
+	
+	public static String getStringValue(JSONObject obj, String key){
+		JSONValue val = getValue(obj, key);
+		if (val != null){
+			return ((JSONString)val).stringValue();
+		}
+		return null;
+	}
+	
+	public static double getDoubleValue(JSONObject obj, String key){
+		JSONValue val = getValue(obj, key);
+		if (val != null){
+			return ((JSONNumber)val).doubleValue();
+		}
+		return -1;
+	}
+	
+	public static HashMap<String, Object> getHashMapValue(JSONObject obj, String key){
+		JSONValue val = getValue(obj, key);
+		if (val.isObject() != null){
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			JSONObject jsonMap = (JSONObject)val;
+			for(String mapKey : jsonMap.keySet()){
+				JSONValue mapVal = jsonMap.get(mapKey);
+				if (mapVal.isString() != null){
+					map.put(mapKey, ((JSONString)mapVal).stringValue());
+				} else if (mapVal.isBoolean() != null){
+					map.put(mapKey, ((JSONBoolean)mapVal).booleanValue());
+				} else if (mapVal.isNumber() != null){
+					map.put(mapKey, ((JSONNumber)mapVal).doubleValue());
+				}
+			}
+			return map;
+		}
+		return null;
+	}
+	
+	
 	
 	/**
 	 * Because we can't be sure how JSON will name the keys, we check all values from
