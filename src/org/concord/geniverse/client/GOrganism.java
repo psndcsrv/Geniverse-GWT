@@ -13,7 +13,7 @@ public class GOrganism implements Serializable, IsSerializable {
 	private String alleles;
 	private String imageURL;
 	private ArrayList<String> characteristics;
-	private HashMap<String, Object> metaInfo = new HashMap<String, Object>();
+	private HashMap<String, String> metaInfo = new HashMap<String, String>();
 
 	public void setName(String name) {
 		this.name = name;
@@ -39,11 +39,11 @@ public class GOrganism implements Serializable, IsSerializable {
 		return alleles;
 	}
 
-	public void setMetaInfo(HashMap<String, Object> metaInfo) {
+	public void setMetaInfo(HashMap<String, String> metaInfo) {
 		this.metaInfo = metaInfo;
 	}
 
-	public HashMap<String, Object> getMetaInfo() {
+	public HashMap<String, String> getMetaInfo() {
 		return metaInfo;
 	}
 
