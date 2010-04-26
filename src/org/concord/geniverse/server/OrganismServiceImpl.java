@@ -25,12 +25,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class OrganismServiceImpl extends RemoteServiceServlet implements OrganismService {
 	private static final Logger logger = Logger.getLogger(OrganismServiceImpl.class.getName());
 	private static final long serialVersionUID = 1L;
-	private static World world = new World("org/concord/biologica/worlds/dragon.xml");
-	private static Species species = world.getCurrentSpecies();
+	private World world = new World("org/concord/biologica/worlds/dragon.xml");
+	private Species species = world.getCurrentSpecies();
 	private static int currentDragonNumber = 0;
 
-	private static void cleanupWorld() {
-		world.deleteAllOrganisms(true);
+	private void cleanupWorld(Organism org) {
+		world.deleteOrganism(org);
 	}
 
 	private GOrganism createGOrg(Organism org) {
@@ -38,9 +38,8 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		gOrg.setName(org.getName());
 		gOrg.setSex(org.getSex());
 		gOrg.setAlleles(org.getAlleleString());
-		gOrg.setImageURL(getOrganismImageURL(gOrg, SpeciesImage.XLARGE_IMAGE_SIZE));
-		gOrg.setCharacteristics(getOrganismPhenotypes(gOrg));
-		cleanupWorld();
+		gOrg.setImageURL(getOrganismImageURL(org, SpeciesImage.XLARGE_IMAGE_SIZE));
+		gOrg.setCharacteristics(getOrganismPhenotypes(org));
 		return gOrg;
 	}
 
@@ -50,33 +49,49 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	}
 
 	public GOrganism getOrganism(int sex) {
+		System.out.println("getOrganism(int sex) called:");
 		Organism dragon = new Organism(world, sex, "Organism " + (++currentDragonNumber), world.getCurrentSpecies());
-		return createGOrg(dragon);
+		GOrganism gOrg = createGOrg(dragon);
+		cleanupWorld(dragon);
+		return gOrg;
 	}
 
 	public GOrganism getOrganism(int sex, String alleles) {
 		Organism dragon = new Organism(world, "Organism " + (++currentDragonNumber), world.getCurrentSpecies(), sex, alleles) ;
-		return createGOrg(dragon);
+		GOrganism gOrg = createGOrg(dragon);
+		cleanupWorld(dragon);
+		return gOrg;
 	}
 
 	public GOrganism getOrganism() {
+		System.out.println("getOrganism(int sex) called:");
 		Organism dragon = new Organism(world, Organism.RANDOM_SEX, "Organism " + (++currentDragonNumber), world.getCurrentSpecies());
-		return createGOrg(dragon);
+		GOrganism gOrg = createGOrg(dragon);
+		cleanupWorld(dragon);
+		return gOrg;
 	}
 
 	public ArrayList<String> getOrganismPhenotypes(GOrganism gOrg) {
-		ArrayList<String> phenotypes = new ArrayList<String>();
 		Organism org = createOrg(gOrg);
+		ArrayList<String> phenotypes = getOrganismPhenotypes(org);
+		cleanupWorld(org);
+		return phenotypes;
+	}
+
+	private ArrayList<String> getOrganismPhenotypes(Organism org) {
+		ArrayList<String> phenotypes = new ArrayList<String>();
+
 		Enumeration<Characteristic> chars = org.getCharacteristics();
 		while (chars.hasMoreElements()) {
 			Characteristic c = chars.nextElement();
 			phenotypes.add(c.getName());
 		}
-		cleanupWorld();
+
 		return phenotypes;
 	}
 
 	public String getOrganismImageURL() {
+		// FIXME cleanup
 		try {
 			return getOrganismImageURL(getOrganism(), SpeciesImage.XLARGE_IMAGE_SIZE);
 		} catch(Exception e) {
@@ -86,9 +101,15 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 	public String getOrganismImageURL(GOrganism organism, int imageSize) {
 		Organism dragon = createOrg(organism);
-		String filename = generateFilename(dragon);
+		String imageUrl = getOrganismImageURL(dragon, imageSize);
+		cleanupWorld(dragon);
+		return imageUrl;
+	}
+
+	private String getOrganismImageURL(Organism dragon, int imageSize) {
+		String filename = generateFilename(dragon, imageSize);
 		ServletContext context = getServletContext();
-		String realpath = context.getRealPath("/cache/" + imageSize + "/" + filename);
+		String realpath = context.getRealPath("/cache/" + filename);
 
 		if (realpath == null) {
 			String url = context.getContextPath() + "/cache/unknown.png";
@@ -112,23 +133,28 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + realpath, e);
 			}
 		}
-		cleanupWorld();
 		return context.getContextPath() + "/cache/" + filename;
 	}
 
-	private String generateFilename(Organism org) {
-		return org.getAlleleString(true) + ".png";
+	private String generateFilename(Organism org, int imageSize) {
+		return "" + imageSize + "/" + org.getAlleleString(true) + ".png";
 	}
 
 	public GOrganism breedOrganism(GOrganism gorg1, GOrganism gorg2) {
+		System.out.println("breedOrganism(GOrganism gorg1, GOrganism gorg2) called:");
 		Organism org1 = createOrg(gorg1);
 		Organism org2 = createOrg(gorg2);
 		try {
 			Organism child = new Organism(org1, org2, "child");
-			return createGOrg(child);
+			GOrganism gOrg = createGOrg(child);
+			cleanupWorld(child);
+			cleanupWorld(org1);
+			cleanupWorld(org2);
+			return gOrg;
 		} catch (IllegalArgumentException e){
 			logger.log(Level.SEVERE, "Could not breed these organisms!", e);
-			cleanupWorld();
+			cleanupWorld(org1);
+			cleanupWorld(org2);
 			return null;
 		}
 	}
