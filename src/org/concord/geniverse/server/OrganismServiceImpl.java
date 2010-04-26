@@ -29,6 +29,10 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	private static Species species = world.getCurrentSpecies();
 	private static int currentDragonNumber = 0;
 
+	private static void cleanupWorld() {
+		world.deleteAllOrganisms(true);
+	}
+
 	private GOrganism createGOrg(Organism org) {
 		GOrganism gOrg = new GOrganism();
 		gOrg.setName(org.getName());
@@ -36,6 +40,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		gOrg.setAlleles(org.getAlleleString());
 		gOrg.setImageURL(getOrganismImageURL(gOrg, SpeciesImage.XLARGE_IMAGE_SIZE));
 		gOrg.setCharacteristics(getOrganismPhenotypes(gOrg));
+		cleanupWorld();
 		return gOrg;
 	}
 
@@ -67,6 +72,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 			Characteristic c = chars.nextElement();
 			phenotypes.add(c.getName());
 		}
+		cleanupWorld();
 		return phenotypes;
 	}
 
@@ -82,7 +88,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		Organism dragon = createOrg(organism);
 		String filename = generateFilename(dragon);
 		ServletContext context = getServletContext();
-		String realpath = context.getRealPath("/cache/" + filename);
+		String realpath = context.getRealPath("/cache/" + imageSize + "/" + filename);
 
 		if (realpath == null) {
 			String url = context.getContextPath() + "/cache/unknown.png";
@@ -106,7 +112,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + realpath, e);
 			}
 		}
-
+		cleanupWorld();
 		return context.getContextPath() + "/cache/" + filename;
 	}
 
@@ -122,6 +128,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 			return createGOrg(child);
 		} catch (IllegalArgumentException e){
 			logger.log(Level.SEVERE, "Could not breed these organisms!", e);
+			cleanupWorld();
 			return null;
 		}
 	}
