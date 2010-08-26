@@ -25,11 +25,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class OrganismServiceImpl extends RemoteServiceServlet implements OrganismService {
 	private static final Logger logger = Logger.getLogger(OrganismServiceImpl.class.getName());
 	private static final long serialVersionUID = 1L;
-	private static World world = new World("org/concord/biologica/worlds/dragon.xml");
+	private World world = new World("org/concord/biologica/worlds/dragon.xml");
 	private Species species = world.getCurrentSpecies();
 	private static int currentDragonNumber = 0;
 
-	private static void cleanupWorld(Organism org) {
+	private void cleanupWorld(Organism org) {
 		world.deleteOrganism(org);
 	}
 
