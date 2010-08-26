@@ -1,11 +1,293 @@
-function geniverse(){var l='',F='" for "gwt:onLoadErrorFn"',D='" for "gwt:onPropertyErrorFn"',n='"><\/script>',p='#',r='/',xb='58F2F793DEA3C639146A1FD5CAD88AFE.cache.html',wb='63FD1D175EA6F5E1021E432FAE26A3F6.cache.html',tb='830B94B7953025FB1536EA57A13289E3.cache.html',vb='9239222FD861B0C3C56B217C087B70BA.cache.html',zb='9E6098911F6AE01442BF7EBC004E8FFF.cache.html',bc='<script defer="defer">geniverse.onInjectionDone(\'geniverse\')<\/script>',fc='<script id="',A='=',q='?',C='Bad handler "',ac='DOMContentLoaded',ub='FDAE158200E647E3F71D544A17E9E388.cache.html',o='SCRIPT',ec='__gwt_marker_geniverse',s='base',nb='begin',cb='bootstrap',u='clear.cache.gif',z='content',dc='end',mb='gecko',ob='gecko1_8',m='geniverse',yb='gwt.hybrid',Ab='gwt/standard/standard.css',E='gwt:onLoadErrorFn',B='gwt:onPropertyErrorFn',y='gwt:property',Fb='head',rb='hosted.html?geniverse',Eb='href',lb='ie6',kb='ie8',ab='iframe',t='img',bb="javascript:''",Bb='link',qb='loadExternalRefs',v='meta',eb='moduleRequested',cc='moduleStartup',jb='msie',w='name',gb='opera',db='position:absolute;width:0;height:0;border:none',Cb='rel',ib='safari',sb='selectingPermutation',x='startup',Db='stylesheet',pb='unknown',fb='user.agent',hb='webkit';var hc=window,k=document,gc=hc.__gwtStatsEvent?function(a){return hc.__gwtStatsEvent(a)}:null,Bc,rc,mc,lc=l,uc={},Ec=[],Ac=[],kc=[],xc,zc;gc&&gc({moduleName:m,subSystem:x,evtGroup:cb,millis:(new Date()).getTime(),type:nb});if(!hc.__gwt_stylesLoaded){hc.__gwt_stylesLoaded={}}if(!hc.__gwt_scriptsLoaded){hc.__gwt_scriptsLoaded={}}function qc(){var b=false;try{b=hc.external&&(hc.external.gwtOnLoad&&hc.location.search.indexOf(yb)==-1)}catch(a){}qc=function(){return b};return b}
-function tc(){if(Bc&&rc){var c=k.getElementById(m);var b=c.contentWindow;if(qc()){b.__gwt_getProperty=function(a){return nc(a)}}geniverse=null;b.gwtOnLoad(xc,m,lc);gc&&gc({moduleName:m,subSystem:x,evtGroup:cc,millis:(new Date()).getTime(),type:dc})}}
-function oc(){var j,h=ec,i;k.write(fc+h+n);i=k.getElementById(h);j=i&&i.previousSibling;while(j&&j.tagName!=o){j=j.previousSibling}function f(b){var a=b.lastIndexOf(p);if(a==-1){a=b.length}var c=b.indexOf(q);if(c==-1){c=b.length}var d=b.lastIndexOf(r,Math.min(c,a));return d>=0?b.substring(0,d+1):l}
-;if(j&&j.src){lc=f(j.src)}if(lc==l){var e=k.getElementsByTagName(s);if(e.length>0){lc=e[e.length-1].href}else{lc=f(k.location.href)}}else if(lc.match(/^\w+:\/\//)){}else{var g=k.createElement(t);g.src=lc+u;lc=f(g.src)}if(i){i.parentNode.removeChild(i)}}
-function yc(){var f=document.getElementsByTagName(v);for(var d=0,g=f.length;d<g;++d){var e=f[d],h=e.getAttribute(w),b;if(h){if(h==y){b=e.getAttribute(z);if(b){var i,c=b.indexOf(A);if(c>=0){h=b.substring(0,c);i=b.substring(c+1)}else{h=b;i=l}uc[h]=i}}else if(h==B){b=e.getAttribute(z);if(b){try{zc=eval(b)}catch(a){alert(C+b+D)}}}else if(h==E){b=e.getAttribute(z);if(b){try{xc=eval(b)}catch(a){alert(C+b+F)}}}}}}
-function Dc(d,e){var a=kc;for(var b=0,c=d.length-1;b<c;++b){a=a[d[b]]||(a[d[b]]=[])}a[d[c]]=e}
-function nc(d){var e=Ac[d](),b=Ec[d];if(e in b){return e}var a=[];for(var c in b){a[b[c]]=c}if(zc){zc(d,a,e)}throw null}
-var pc;function sc(){if(!pc){pc=true;var a=k.createElement(ab);a.src=bb;a.id=m;a.style.cssText=db;a.tabIndex=-1;k.body.appendChild(a);gc&&gc({moduleName:m,subSystem:x,evtGroup:cc,millis:(new Date()).getTime(),type:eb});a.contentWindow.location.replace(lc+Cc)}}
-Ac[fb]=function(){var d=navigator.userAgent.toLowerCase();var b=function(a){return parseInt(a[1])*1000+parseInt(a[2])};if(d.indexOf(gb)!=-1){return gb}else if(d.indexOf(hb)!=-1){return ib}else if(d.indexOf(jb)!=-1){if(document.documentMode>=8){return kb}else{var c=/msie ([0-9]+)\.([0-9]+)/.exec(d);if(c&&c.length==3){var e=b(c);if(e>=6000){return lb}}}}else if(d.indexOf(mb)!=-1){var c=/rv:([0-9]+)\.([0-9]+)/.exec(d);if(c&&c.length==3){if(b(c)>=1008)return ob}return mb}return pb};Ec[fb]={gecko:0,gecko1_8:1,ie6:2,ie8:3,opera:4,safari:5};geniverse.onScriptLoad=function(){if(pc){rc=true;tc()}};geniverse.onInjectionDone=function(){Bc=true;gc&&gc({moduleName:m,subSystem:x,evtGroup:qb,millis:(new Date()).getTime(),type:dc});tc()};oc();var Cc;if(qc()){if(hc.external.initModule&&hc.external.initModule(m)){hc.location.reload();return}Cc=rb}yc();gc&&gc({moduleName:m,subSystem:x,evtGroup:cb,millis:(new Date()).getTime(),type:sb});if(!Cc){try{Dc([kb],tb);Dc([lb],ub);Dc([gb],vb);Dc([ib],wb);Dc([ob],xb);Dc([mb],zb);Cc=kc[nc(fb)]}catch(a){return}}var wc;function vc(){if(!mc){mc=true;if(!__gwt_stylesLoaded[Ab]){var a=k.createElement(Bb);__gwt_stylesLoaded[Ab]=a;a.setAttribute(Cb,Db);a.setAttribute(Eb,lc+Ab);k.getElementsByTagName(Fb)[0].appendChild(a)}tc();if(k.removeEventListener){k.removeEventListener(ac,vc,false)}if(wc){clearInterval(wc)}}}
-if(k.addEventListener){k.addEventListener(ac,function(){sc();vc()},false)}var wc=setInterval(function(){if(/loaded|complete/.test(k.readyState)){sc();vc()}},50);gc&&gc({moduleName:m,subSystem:x,evtGroup:cb,millis:(new Date()).getTime(),type:dc});gc&&gc({moduleName:m,subSystem:x,evtGroup:qb,millis:(new Date()).getTime(),type:nb});k.write(bc)}
+function geniverse(){
+  var $wnd_0 = window, $doc_0 = document, $stats = $wnd_0.__gwtStatsEvent?function(a){
+    return $wnd_0.__gwtStatsEvent(a);
+  }
+  :null, $sessionId_0 = $wnd_0.__gwtStatsSessionId?$wnd_0.__gwtStatsSessionId:null, scriptsDone, loadDone, bodyDone, base = '', metaProps = {}, values = [], providers = [], answers = [], onLoadErrorFunc, propertyErrorFunc;
+  $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'begin'});
+  if (!$wnd_0.__gwt_stylesLoaded) {
+    $wnd_0.__gwt_stylesLoaded = {};
+  }
+  if (!$wnd_0.__gwt_scriptsLoaded) {
+    $wnd_0.__gwt_scriptsLoaded = {};
+  }
+  function isHostedMode(){
+    var result = false;
+    try {
+      var query = $wnd_0.location.search;
+      return (query.indexOf('gwt.codesvr=') != -1 || (query.indexOf('gwt.hosted=') != -1 || $wnd_0.external && $wnd_0.external.gwtOnLoad)) && query.indexOf('gwt.hybrid') == -1;
+    }
+     catch (e) {
+    }
+    isHostedMode = function(){
+      return result;
+    }
+    ;
+    return result;
+  }
+
+  function maybeStartModule(){
+    if (scriptsDone && loadDone) {
+      var iframe = $doc_0.getElementById('geniverse');
+      var frameWnd = iframe.contentWindow;
+      if (isHostedMode()) {
+        frameWnd.__gwt_getProperty = function(name_0){
+          return computePropValue(name_0);
+        }
+        ;
+      }
+      geniverse = null;
+      frameWnd.gwtOnLoad(onLoadErrorFunc, 'geniverse', base);
+      $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'moduleStartup', millis:(new Date).getTime(), type:'end'});
+    }
+  }
+
+  function computeScriptBase(){
+    var thisScript, markerId = '__gwt_marker_geniverse', markerScript;
+    $doc_0.write('<script id="' + markerId + '"><\/script>');
+    markerScript = $doc_0.getElementById(markerId);
+    thisScript = markerScript && markerScript.previousSibling;
+    while (thisScript && thisScript.tagName != 'SCRIPT') {
+      thisScript = thisScript.previousSibling;
+    }
+    function getDirectoryOfFile(path){
+      var hashIndex = path.lastIndexOf('#');
+      if (hashIndex == -1) {
+        hashIndex = path.length;
+      }
+      var queryIndex = path.indexOf('?');
+      if (queryIndex == -1) {
+        queryIndex = path.length;
+      }
+      var slashIndex = path.lastIndexOf('/', Math.min(queryIndex, hashIndex));
+      return slashIndex >= 0?path.substring(0, slashIndex + 1):'';
+    }
+
+    ;
+    if (thisScript && thisScript.src) {
+      base = getDirectoryOfFile(thisScript.src);
+    }
+    if (base == '') {
+      var baseElements = $doc_0.getElementsByTagName('base');
+      if (baseElements.length > 0) {
+        base = baseElements[baseElements.length - 1].href;
+      }
+       else {
+        base = getDirectoryOfFile($doc_0.location.href);
+      }
+    }
+     else if (base.match(/^\w+:\/\//)) {
+    }
+     else {
+      var img = $doc_0.createElement('img');
+      img.src = base + 'clear.cache.gif';
+      base = getDirectoryOfFile(img.src);
+    }
+    if (markerScript) {
+      markerScript.parentNode.removeChild(markerScript);
+    }
+  }
+
+  function processMetas(){
+    var metas = document.getElementsByTagName('meta');
+    for (var i = 0, n = metas.length; i < n; ++i) {
+      var meta = metas[i], name_0 = meta.getAttribute('name'), content;
+      if (name_0) {
+        if (name_0 == 'gwt:property') {
+          content = meta.getAttribute('content');
+          if (content) {
+            var value, eq = content.indexOf('=');
+            if (eq >= 0) {
+              name_0 = content.substring(0, eq);
+              value = content.substring(eq + 1);
+            }
+             else {
+              name_0 = content;
+              value = '';
+            }
+            metaProps[name_0] = value;
+          }
+        }
+         else if (name_0 == 'gwt:onPropertyErrorFn') {
+          content = meta.getAttribute('content');
+          if (content) {
+            try {
+              propertyErrorFunc = eval(content);
+            }
+             catch (e) {
+              alert('Bad handler "' + content + '" for "gwt:onPropertyErrorFn"');
+            }
+          }
+        }
+         else if (name_0 == 'gwt:onLoadErrorFn') {
+          content = meta.getAttribute('content');
+          if (content) {
+            try {
+              onLoadErrorFunc = eval(content);
+            }
+             catch (e) {
+              alert('Bad handler "' + content + '" for "gwt:onLoadErrorFn"');
+            }
+          }
+        }
+      }
+    }
+  }
+
+  function unflattenKeylistIntoAnswers(propValArray, value){
+    var answer = answers;
+    for (var i = 0, n = propValArray.length - 1; i < n; ++i) {
+      answer = answer[propValArray[i]] || (answer[propValArray[i]] = []);
+    }
+    answer[propValArray[n]] = value;
+  }
+
+  function computePropValue(propName){
+    var value = providers[propName](), allowedValuesMap = values[propName];
+    if (value in allowedValuesMap) {
+      return value;
+    }
+    var allowedValuesList = [];
+    for (var k in allowedValuesMap) {
+      allowedValuesList[allowedValuesMap[k]] = k;
+    }
+    if (propertyErrorFunc) {
+      propertyErrorFunc(propName, allowedValuesList, value);
+    }
+    throw null;
+  }
+
+  var frameInjected;
+  function maybeInjectFrame(){
+    if (!frameInjected) {
+      frameInjected = true;
+      var iframe = $doc_0.createElement('iframe');
+      iframe.src = "javascript:''";
+      iframe.id = 'geniverse';
+      iframe.style.cssText = 'position:absolute;width:0;height:0;border:none';
+      iframe.tabIndex = -1;
+      $doc_0.body.appendChild(iframe);
+      $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'moduleStartup', millis:(new Date).getTime(), type:'moduleRequested'});
+      iframe.contentWindow.location.replace(base + initialHtml);
+    }
+  }
+
+  providers['user.agent'] = function(){
+    var ua = navigator.userAgent.toLowerCase();
+    var makeVersion = function(result){
+      return parseInt(result[1]) * 1000 + parseInt(result[2]);
+    }
+    ;
+    if (ua.indexOf('opera') != -1) {
+      return 'opera';
+    }
+     else if (ua.indexOf('webkit') != -1) {
+      return 'safari';
+    }
+     else if (ua.indexOf('msie') != -1) {
+      if (document.documentMode >= 8) {
+        return 'ie8';
+      }
+       else {
+        var result_0 = /msie ([0-9]+)\.([0-9]+)/.exec(ua);
+        if (result_0 && result_0.length == 3) {
+          var v = makeVersion(result_0);
+          if (v >= 6000) {
+            return 'ie6';
+          }
+        }
+      }
+    }
+     else if (ua.indexOf('gecko') != -1) {
+      var result_0 = /rv:([0-9]+)\.([0-9]+)/.exec(ua);
+      if (result_0 && result_0.length == 3) {
+        if (makeVersion(result_0) >= 1008)
+          return 'gecko1_8';
+      }
+      return 'gecko';
+    }
+    return 'unknown';
+  }
+  ;
+  values['user.agent'] = {gecko:0, gecko1_8:1, ie6:2, ie8:3, opera:4, safari:5};
+  geniverse.onScriptLoad = function(){
+    if (frameInjected) {
+      loadDone = true;
+      maybeStartModule();
+    }
+  }
+  ;
+  geniverse.onInjectionDone = function(){
+    scriptsDone = true;
+    $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'loadExternalRefs', millis:(new Date).getTime(), type:'end'});
+    maybeStartModule();
+  }
+  ;
+  computeScriptBase();
+  var strongName;
+  var initialHtml;
+  if (isHostedMode()) {
+    if ($wnd_0.external && ($wnd_0.external.initModule && $wnd_0.external.initModule('geniverse'))) {
+      $wnd_0.location.reload();
+      return;
+    }
+    initialHtml = 'hosted.html?geniverse';
+    strongName = '';
+  }
+  processMetas();
+  $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
+  if (!isHostedMode()) {
+    try {
+      unflattenKeylistIntoAnswers(['ie8'], '18B172A4E5A6E88D6971B03C6E89C33F');
+      unflattenKeylistIntoAnswers(['opera'], '614FF67D17A22917519FEDE20DC7EA15');
+      unflattenKeylistIntoAnswers(['safari'], 'CAACD49C3C0EF140509AE6EFB2B9E810');
+      unflattenKeylistIntoAnswers(['gecko'], 'CC8896535DCDD604BA53152652704186');
+      unflattenKeylistIntoAnswers(['gecko1_8'], 'CC8896535DCDD604BA53152652704186');
+      unflattenKeylistIntoAnswers(['ie6'], 'EB1EF9CD005DC4F43AF646125FFB6020');
+      strongName = answers[computePropValue('user.agent')];
+      initialHtml = strongName + '.cache.html';
+    }
+     catch (e) {
+      return;
+    }
+  }
+  var onBodyDoneTimerId;
+  function onBodyDone(){
+    if (!bodyDone) {
+      bodyDone = true;
+      if (!__gwt_stylesLoaded['gwt/standard/standard.css']) {
+        var l = $doc_0.createElement('link');
+        __gwt_stylesLoaded['gwt/standard/standard.css'] = l;
+        l.setAttribute('rel', 'stylesheet');
+        l.setAttribute('href', base + 'gwt/standard/standard.css');
+        $doc_0.getElementsByTagName('head')[0].appendChild(l);
+      }
+      maybeStartModule();
+      if ($doc_0.removeEventListener) {
+        $doc_0.removeEventListener('DOMContentLoaded', onBodyDone, false);
+      }
+      if (onBodyDoneTimerId) {
+        clearInterval(onBodyDoneTimerId);
+      }
+    }
+  }
+
+  if ($doc_0.addEventListener) {
+    $doc_0.addEventListener('DOMContentLoaded', function(){
+      maybeInjectFrame();
+      onBodyDone();
+    }
+    , false);
+  }
+  var onBodyDoneTimerId = setInterval(function(){
+    if (/loaded|complete/.test($doc_0.readyState)) {
+      maybeInjectFrame();
+      onBodyDone();
+    }
+  }
+  , 50);
+  $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'end'});
+  $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'loadExternalRefs', millis:(new Date).getTime(), type:'begin'});
+  $doc_0.write('<script defer="defer">geniverse.onInjectionDone(\'geniverse\')<\/script>');
+}
+
 geniverse();

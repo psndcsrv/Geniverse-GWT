@@ -12,6 +12,7 @@
 
   <!-- Other module inherits                                      -->
 
+  <inherits name='com.google.gwt.json.JSON' />
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.concord.geniverse.client.Geniverse'/>
 </module>
