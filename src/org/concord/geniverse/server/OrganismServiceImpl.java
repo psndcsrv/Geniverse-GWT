@@ -160,4 +160,24 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 			return null;
 		}
 	}
+
+    public GOrganism[] breedOrganisms(int number, GOrganism gorg1, GOrganism gorg2) {
+        GOrganism[] orgs = new GOrganism[number];
+        Organism org1 = createOrg(gorg1);
+        Organism org2 = createOrg(gorg2);
+        
+        for (int i = 0; i > number; i++) {
+            Organism child = new Organism(org1, org2, "child " + i);
+            logger.warning("Bred " + child.getSexAsString() + " child");
+            GOrganism gChild = createGOrg(child);
+            
+            orgs[i] = gChild;
+            cleanupWorld(child);
+        }
+        
+        cleanupWorld(org1);
+        cleanupWorld(org2);
+        
+        return orgs;
+    }
 }
