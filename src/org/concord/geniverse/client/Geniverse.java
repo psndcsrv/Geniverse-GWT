@@ -70,7 +70,8 @@ public class Geniverse implements EntryPoint {
 	}
 	
 	public static void breedDragons(int count, GOrganism org1, GOrganism org2, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
-        AsyncCallback<GOrganism[]> callback = createGOrganismArrayCallback(successFunction, failureFunction);
+        AsyncCallback<ArrayList<GOrganism>> callback = createGOrganismArrayListCallback(successFunction, failureFunction);
+        System.err.println("Breeding " + count + " dragons.");
         organismSvc.breedOrganisms(count, org1, org2, callback);
     }
 
@@ -86,6 +87,19 @@ public class Geniverse implements EntryPoint {
 		};
 		return callback;
 	}
+	
+	public static AsyncCallback<ArrayList<GOrganism>> createGOrganismArrayListCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+        AsyncCallback<ArrayList<GOrganism>> callback = new AsyncCallback<ArrayList<GOrganism>>() {
+            public void onFailure(Throwable caught) {
+                callFunc(failureFunction, caught);
+            }
+
+            public void onSuccess(ArrayList<GOrganism> result) {
+                callFunc(successFunction, result);
+            }
+        };
+        return callback;
+    }
 	
 	public static AsyncCallback<GOrganism[]> createGOrganismArrayCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
         AsyncCallback<GOrganism[]> callback = new AsyncCallback<GOrganism[]>() {

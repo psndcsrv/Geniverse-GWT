@@ -136,7 +136,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + cacheRealPath + "/" + filename, e);
 			}
 		} else {
-		    logger.warning("Image file already exists for " + dragon.getName() + " (" + dragon.getAlleleString() + ")(" + cacheRealPath + "/" + filename + "): " + outputfile);
+		    // logger.warning("Image file already exists for " + dragon.getName() + " (" + dragon.getAlleleString() + ")(" + cacheRealPath + "/" + filename + "): " + outputfile);
 		}
 
 		return context.getContextPath() + "/cache/" + filename;
@@ -151,7 +151,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	        path.append(pheno.toLowerCase().replaceAll("\\s+", "_"));
 	    }
 	    path.append(".png");
-	    logger.warning("Path for (" + org.getAlleleString(false) + ") is: " + path.toString());
+	    // logger.warning("Path for (" + org.getAlleleString(false) + ") is: " + path.toString());
 		return path.toString();
 	}
 
@@ -175,17 +175,18 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		}
 	}
 
-    public GOrganism[] breedOrganisms(int number, GOrganism gorg1, GOrganism gorg2) {
-        GOrganism[] orgs = new GOrganism[number];
+    public ArrayList<GOrganism> breedOrganisms(int number, GOrganism gorg1, GOrganism gorg2) {
+        logger.warning("Actually breeding " + number + " dragons");
+        ArrayList<GOrganism> orgs = new ArrayList<GOrganism>(number);
         Organism org1 = createOrg(gorg1);
         Organism org2 = createOrg(gorg2);
         
-        for (int i = 0; i > number; i++) {
+        for (int i = 0; i < number; i++) {
             Organism child = new Organism(org1, org2, "child " + i);
             logger.warning("Bred " + child.getSexAsString() + " child");
             GOrganism gChild = createGOrg(child);
             
-            orgs[i] = gChild;
+            orgs.add(gChild);
             cleanupWorld(child);
         }
         

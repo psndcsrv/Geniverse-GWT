@@ -16,5 +16,5 @@ public interface OrganismService extends RemoteService {
 
 	ArrayList<String> getOrganismPhenotypes(GOrganism gOrg);
 	GOrganism breedOrganism(GOrganism org1, GOrganism org2);
-	GOrganism[] breedOrganisms(int number, GOrganism org1, GOrganism org2);
+	ArrayList<GOrganism> breedOrganisms(int number, GOrganism org1, GOrganism org2);
 }
