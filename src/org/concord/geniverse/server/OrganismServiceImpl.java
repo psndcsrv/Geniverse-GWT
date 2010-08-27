@@ -109,15 +109,17 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	private String getOrganismImageURL(Organism dragon, int imageSize) {
 		String filename = generateFilename(dragon, imageSize);
 		ServletContext context = getServletContext();
-		String realpath = context.getRealPath("/cache/" + filename);
+		String cacheRealPath = context.getRealPath("/cache");
+		// String realpath = context.getRealPath("/cache/" + filename);
 
-		if (realpath == null) {
+		if (cacheRealPath == null) {
 			String url = context.getContextPath() + "/cache/unknown.png";
 			return url;
 		}
 
-		File outputfile = new File(realpath);
+		File outputfile = new File(cacheRealPath + "/" + filename);
 		if (! outputfile.exists()) {
+		    logger.warning("Image file does not exist for " + dragon.getName() + " (" + dragon.getAlleleString() + "): " + outputfile);
 		    outputfile.getParentFile().mkdirs();
 			try {
 				StaticOrganismView view = new StaticOrganismView();
@@ -131,15 +133,26 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 
 			} catch (IOException e) {
-				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + realpath, e);
+				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + cacheRealPath + "/" + filename, e);
 			}
+		} else {
+		    logger.warning("Image file already exists for " + dragon.getName() + " (" + dragon.getAlleleString() + ")(" + cacheRealPath + "/" + filename + "): " + outputfile);
 		}
 
 		return context.getContextPath() + "/cache/" + filename;
 	}
 
 	private String generateFilename(Organism org, int imageSize) {
-		return "" + imageSize + "/" + org.getAlleleString(true) + ".png";
+	    StringBuilder path = new StringBuilder();
+	    path.append(imageSize);
+	    // FIXME Can we guarantee consistency this way?
+	    for (String pheno : getOrganismPhenotypes(org)) {
+	        path.append(File.separator);
+	        path.append(pheno.toLowerCase().replaceAll("\\s+", "_"));
+	    }
+	    path.append(".png");
+	    logger.warning("Path for (" + org.getAlleleString(false) + ") is: " + path.toString());
+		return path.toString();
 	}
 
 	public GOrganism breedOrganism(GOrganism gorg1, GOrganism gorg2) {
