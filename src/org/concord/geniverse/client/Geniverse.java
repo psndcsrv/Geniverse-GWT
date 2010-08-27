@@ -68,6 +68,11 @@ public class Geniverse implements EntryPoint {
 		AsyncCallback<GOrganism> callback = createGOrganismCallback(successFunction, failureFunction);
 		organismSvc.breedOrganism(org1, org2, callback);
 	}
+	
+	public static void breedDragons(int count, GOrganism org1, GOrganism org2, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+        AsyncCallback<GOrganism[]> callback = createGOrganismArrayCallback(successFunction, failureFunction);
+        organismSvc.breedOrganisms(count, org1, org2, callback);
+    }
 
 	public static AsyncCallback<GOrganism> createGOrganismCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
 		AsyncCallback<GOrganism> callback = new AsyncCallback<GOrganism>() {
@@ -81,6 +86,19 @@ public class Geniverse implements EntryPoint {
 		};
 		return callback;
 	}
+	
+	public static AsyncCallback<GOrganism[]> createGOrganismArrayCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+        AsyncCallback<GOrganism[]> callback = new AsyncCallback<GOrganism[]>() {
+            public void onFailure(Throwable caught) {
+                callFunc(failureFunction, caught);
+            }
+
+            public void onSuccess(GOrganism[] result) {
+                callFunc(successFunction, result);
+            }
+        };
+        return callback;
+    }
 
 	public static AsyncCallback<String> createStringCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
 		AsyncCallback<String> callback = new AsyncCallback<String>() {
@@ -170,6 +188,8 @@ public class Geniverse implements EntryPoint {
 
 	    $wnd.breedDragon = 
 	      @org.concord.geniverse.client.Geniverse::breedDragon(Lorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+        $wnd.breedDragons = 
+          @org.concord.geniverse.client.Geniverse::breedDragons(ILorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 		$wnd.createGOrganismFromJSONString =
 		  @org.concord.geniverse.client.Geniverse::createGOrganismFromJSONString(Ljava/lang/String;);
