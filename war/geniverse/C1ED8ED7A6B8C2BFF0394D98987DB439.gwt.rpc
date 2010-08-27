@@ -7,4 +7,5 @@ java.util.ArrayList, true, true, true, true, java.util.ArrayList/3821976829, 382
 java.util.HashMap, true, true, true, true, java.util.HashMap/962170901, 962170901
 java.util.LinkedHashMap, true, true, true, true, java.util.LinkedHashMap/1551059846, 1551059846
 org.concord.geniverse.client.GOrganism, true, true, true, true, org.concord.geniverse.client.GOrganism/4228584119, 4228584119
+[Lorg.concord.geniverse.client.GOrganism;, true, true, false, false, [Lorg.concord.geniverse.client.GOrganism;/2953022907, 2953022907
 org.concord.geniverse.client.OrganismService, false, false, false, false, _, 272062294
