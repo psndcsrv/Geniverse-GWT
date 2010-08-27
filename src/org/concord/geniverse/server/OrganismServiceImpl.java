@@ -109,7 +109,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	private String getOrganismImageURL(Organism dragon, int imageSize) {
 		String filename = generateFilename(dragon, imageSize);
 		ServletContext context = getServletContext();
-		String realpath = context.getRealPath("/cache/" + imageSize + "/" + filename);
+		String realpath = context.getRealPath("/cache/" + filename);
 
 		if (realpath == null) {
 			String url = context.getContextPath() + "/cache/unknown.png";
@@ -118,6 +118,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 		File outputfile = new File(realpath);
 		if (! outputfile.exists()) {
+		    outputfile.getParentFile().mkdirs();
 			try {
 				StaticOrganismView view = new StaticOrganismView();
 				view.setOrganism(dragon);
