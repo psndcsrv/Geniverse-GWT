@@ -25,7 +25,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class OrganismServiceImpl extends RemoteServiceServlet implements OrganismService {
 	private static final Logger logger = Logger.getLogger(OrganismServiceImpl.class.getName());
 	private static final long serialVersionUID = 1L;
-	private World world = new World("org/concord/biologica/worlds/dragon.xml");
+	private World world = new World("org/concord/biologica/worlds/new-dragons.xml");
 	private Species species = world.getCurrentSpecies();
 	private static int currentDragonNumber = 0;
 
@@ -108,51 +108,118 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 	private String getOrganismImageURL(Organism dragon, int imageSize) {
 		String filename = generateFilename(dragon, imageSize);
-		ServletContext context = getServletContext();
-		String cacheRealPath = context.getRealPath("/cache");
-		// String realpath = context.getRealPath("/cache/" + filename);
-
-		if (cacheRealPath == null) {
-			String url = context.getContextPath() + "/cache/unknown.png";
-			return url;
-		}
-
-		File outputfile = new File(cacheRealPath + "/" + filename);
-		if (! outputfile.exists()) {
-		    logger.warning("Image file does not exist for " + dragon.getName() + " (" + dragon.getAlleleString() + "): " + outputfile);
-		    outputfile.getParentFile().mkdirs();
-			try {
-				StaticOrganismView view = new StaticOrganismView();
-				view.setOrganism(dragon);
-				try {
-					BufferedImage image = view.getOrganismImage(dragon, imageSize);
-					ImageIO.write(image, "png", outputfile);
-				} catch (java.lang.ExceptionInInitializerError e) {
-					logger.log(Level.SEVERE, "Couldn't generate a buffered image!", e);
-				}
-
-
-			} catch (IOException e) {
-				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + cacheRealPath + "/" + filename, e);
-			}
-		} else {
-		    // logger.warning("Image file already exists for " + dragon.getName() + " (" + dragon.getAlleleString() + ")(" + cacheRealPath + "/" + filename + "): " + outputfile);
-		}
-
-		return context.getContextPath() + "/cache/" + filename;
+		
+		return "http://geniverse.dev.concord.org/resources/drakes/images/" + filename;
+		
+//		ServletContext context = getServletContext();
+//		String cacheRealPath = context.getRealPath("/cache");
+//		// String realpath = context.getRealPath("/cache/" + filename);
+//
+//		if (cacheRealPath == null) {
+//			String url = context.getContextPath() + "/cache/unknown.png";
+//			return url;
+//		}
+//
+//		File outputfile = new File(cacheRealPath + "/" + filename);
+//		if (! outputfile.exists()) {
+//		    logger.warning("Image file does not exist for " + dragon.getName() + " (" + dragon.getAlleleString() + "): " + outputfile);
+//		    outputfile.getParentFile().mkdirs();
+//			try {
+//				StaticOrganismView view = new StaticOrganismView();
+//				view.setOrganism(dragon);
+//				try {
+//					BufferedImage image = view.getOrganismImage(dragon, imageSize);
+//					ImageIO.write(image, "png", outputfile);
+//				} catch (java.lang.ExceptionInInitializerError e) {
+//					logger.log(Level.SEVERE, "Couldn't generate a buffered image!", e);
+//				}
+//
+//
+//			} catch (IOException e) {
+//				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + cacheRealPath + "/" + filename, e);
+//			}
+//		} else {
+//		    // logger.warning("Image file already exists for " + dragon.getName() + " (" + dragon.getAlleleString() + ")(" + cacheRealPath + "/" + filename + "): " + outputfile);
+//		}
+//
+//		return context.getContextPath() + "/cache/" + filename;
 	}
 
 	private String generateFilename(Organism org, int imageSize) {
-	    StringBuilder path = new StringBuilder();
-	    path.append(imageSize);
-	    // FIXME Can we guarantee consistency this way?
-	    for (String pheno : getOrganismPhenotypes(org)) {
-	        path.append(File.separator);
-	        path.append(pheno.toLowerCase().replaceAll("\\s+", "_"));
-	    }
-	    path.append(".png");
-	    // logger.warning("Path for (" + org.getAlleleString(false) + ") is: " + path.toString());
-		return path.toString();
+//	    StringBuilder path = new StringBuilder();
+//	    path.append(imageSize);
+//	    // FIXME Can we guarantee consistency this way?
+//	    for (String pheno : getOrganismPhenotypes(org)) {
+//	        path.append(File.separator);
+//	        path.append(pheno.toLowerCase().replaceAll("\\s+", "_"));
+//	    }
+//	    path.append(".png");
+//	    // logger.warning("Path for (" + org.getAlleleString(false) + ") is: " + path.toString());
+//		return path.toString();
+		
+		String filename = "";
+
+		// color
+		filename += getCharacteristic(org, "Color").toLowerCase().substring(0,
+				2)
+				+ "_";
+
+		// sex
+		filename += org.getSex() == 0 ? "m_" : "f_";
+
+		// wings
+		filename += getCharacteristic(org, "Wings").equalsIgnoreCase("Wings") ? "wing_"
+				: "noWing_";
+
+		// limbs
+		String limbs = "";
+		boolean forelimbs = getCharacteristic(org, "Forelimbs")
+				.equalsIgnoreCase("Forelimbs");
+		boolean hindlimbs = getCharacteristic(org, "Hindlimbs")
+				.equalsIgnoreCase("Hindlimbs");
+		if (forelimbs) {
+			if (hindlimbs) {
+				limbs = "allLimb";
+			} else {
+				limbs = "fore";
+			}
+		} else if (hindlimbs) {
+			limbs = "hind";
+		} else {
+			limbs = "noLimb";
+		}
+		filename += limbs + "_";
+
+		// armor
+		String armor = getCharacteristic(org, "Armor");
+		String armorStr = "";
+		if (armor.equalsIgnoreCase("Five armor")) {
+			armorStr = "a5";
+		} else if (armor.equalsIgnoreCase("Three armor")) {
+			armorStr = "a3";
+		} else if (armor.equalsIgnoreCase("One armor")) {
+			armorStr = "a1";
+		} else {
+			armorStr = "a0";
+		}
+		filename += armorStr + "_";
+
+		// tail
+		filename += getCharacteristic(org, "Tail")
+				.equalsIgnoreCase("Long tail") ? "fl_" : "sh_";
+
+		// horns
+		filename += getCharacteristic(org, "Horns").equalsIgnoreCase("Horns") ? "horn"
+				: "noHorn";
+
+		filename += ".png";
+
+		return filename;
+	}
+	
+	private String getCharacteristic(Organism org, String trait) {
+		// rm "Characteristic: "
+		return org.getCharacteristicOfTrait(trait).toString().split(": ")[1];
 	}
 
 	public GOrganism breedOrganism(GOrganism gorg1, GOrganism gorg2) {
