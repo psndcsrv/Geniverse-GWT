@@ -75,10 +75,10 @@ public class Geniverse implements EntryPoint {
         organismSvc.breedOrganisms(count, org1, org2, callback);
     }
 	
-	public static void breedDragons(int count, GOrganism org1, GOrganism org2, boolean crossingOver, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
+	public static void breedDragonsWithCrossover(int count, GOrganism org1, GOrganism org2, boolean crossingOver, final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
         AsyncCallback<ArrayList<GOrganism>> callback = createGOrganismArrayListCallback(successFunction, failureFunction);
         System.err.println("Breeding " + count + " dragons " + (crossingOver ? "with" : "without") + "crossover");
-        organismSvc.breedOrganisms(count, org1, org2, crossingOver, callback);
+        organismSvc.breedOrganismsWithCrossover(count, org1, org2, crossingOver, callback);
     }
 
 	public static AsyncCallback<GOrganism> createGOrganismCallback(final JavaScriptObject successFunction, final JavaScriptObject failureFunction) {
@@ -213,7 +213,7 @@ public class Geniverse implements EntryPoint {
           @org.concord.geniverse.client.Geniverse::breedDragons(ILorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
 
 		$wnd.breedDragonsWithCrossover = 
-          @org.concord.geniverse.client.Geniverse::breedDragons(ILorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;ZLcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
+          @org.concord.geniverse.client.Geniverse::breedDragonsWithCrossover(ILorg/concord/geniverse/client/GOrganism;Lorg/concord/geniverse/client/GOrganism;ZLcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;);
           
 		$wnd.createGOrganismFromJSONString =
 		  @org.concord.geniverse.client.Geniverse::createGOrganismFromJSONString(Ljava/lang/String;);
