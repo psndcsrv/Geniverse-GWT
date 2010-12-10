@@ -262,4 +262,25 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
         
         return orgs;
     }
+    
+    public ArrayList<GOrganism> breedOrganisms(int number, GOrganism gorg1, GOrganism gorg2, boolean crossingOver) {
+        logger.warning("Actually breeding " + number + " dragons");
+        ArrayList<GOrganism> orgs = new ArrayList<GOrganism>(number);
+        Organism org1 = createOrg(gorg1);
+        Organism org2 = createOrg(gorg2);
+        
+        for (int i = 0; i < number; i++) {
+            Organism child = new Organism(org1, org2, "child " + i, crossingOver);
+            logger.warning("Bred " + child.getSexAsString() + " child");
+            GOrganism gChild = createGOrg(child);
+            
+            orgs.add(gChild);
+            cleanupWorld(child);
+        }
+        
+        cleanupWorld(org1);
+        cleanupWorld(org2);
+        
+        return orgs;
+    }
 }

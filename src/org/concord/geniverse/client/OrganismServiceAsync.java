@@ -15,4 +15,5 @@ public interface OrganismServiceAsync {
 	void breedOrganism(GOrganism org1, GOrganism org2,
 			AsyncCallback<GOrganism> callback);
     void breedOrganisms(int number, GOrganism org1, GOrganism org2, AsyncCallback<ArrayList<GOrganism>> callback);
+    void breedOrganisms(int number, GOrganism org1, GOrganism org2, boolean crossingOver, AsyncCallback<ArrayList<GOrganism>> callback);
 }
