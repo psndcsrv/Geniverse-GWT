@@ -2,7 +2,7 @@ function geniverse(){
   var $wnd_0 = window, $doc_0 = document, $stats = $wnd_0.__gwtStatsEvent?function(a){
     return $wnd_0.__gwtStatsEvent(a);
   }
-  :null, $sessionId_0 = $wnd_0.__gwtStatsSessionId?$wnd_0.__gwtStatsSessionId:null, scriptsDone, loadDone, bodyDone, base = '', metaProps = {}, values = [], providers = [], answers = [], onLoadErrorFunc, propertyErrorFunc;
+  :null, $sessionId_0 = $wnd_0.__gwtStatsSessionId?$wnd_0.__gwtStatsSessionId:null, scriptsDone, loadDone, bodyDone, base = '', metaProps = {}, values = [], providers = [], answers = [], softPermutationId = 0, onLoadErrorFunc, propertyErrorFunc;
   $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'begin'});
   if (!$wnd_0.__gwt_stylesLoaded) {
     $wnd_0.__gwt_stylesLoaded = {};
@@ -36,18 +36,32 @@ function geniverse(){
         ;
       }
       geniverse = null;
-      frameWnd.gwtOnLoad(onLoadErrorFunc, 'geniverse', base);
+      frameWnd.gwtOnLoad(onLoadErrorFunc, 'geniverse', base, softPermutationId);
       $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'moduleStartup', millis:(new Date).getTime(), type:'end'});
     }
   }
 
   function computeScriptBase(){
-    var thisScript, markerId = '__gwt_marker_geniverse', markerScript;
-    $doc_0.write('<script id="' + markerId + '"><\/script>');
-    markerScript = $doc_0.getElementById(markerId);
-    thisScript = markerScript && markerScript.previousSibling;
-    while (thisScript && thisScript.tagName != 'SCRIPT') {
-      thisScript = thisScript.previousSibling;
+    if (metaProps['baseUrl']) {
+      base = metaProps['baseUrl'];
+      return base;
+    }
+    var thisScript;
+    var scriptTags = $doc_0.getElementsByTagName('script');
+    for (var i = 0; i < scriptTags.length; ++i) {
+      if (scriptTags[i].src.indexOf('geniverse.nocache.js') != -1) {
+        thisScript = scriptTags[i];
+      }
+    }
+    if (!thisScript) {
+      var markerId = '__gwt_marker_geniverse';
+      var markerScript;
+      $doc_0.write('<script id="' + markerId + '"><\/script>');
+      markerScript = $doc_0.getElementById(markerId);
+      thisScript = markerScript && markerScript.previousSibling;
+      while (thisScript && thisScript.tagName != 'SCRIPT') {
+        thisScript = thisScript.previousSibling;
+      }
     }
     function getDirectoryOfFile(path){
       var hashIndex = path.lastIndexOf('#');
@@ -85,47 +99,52 @@ function geniverse(){
     if (markerScript) {
       markerScript.parentNode.removeChild(markerScript);
     }
+    return base;
   }
 
   function processMetas(){
     var metas = document.getElementsByTagName('meta');
     for (var i = 0, n = metas.length; i < n; ++i) {
-      var meta = metas[i], name_0 = meta.getAttribute('name'), content;
+      var meta = metas[i], name_0 = meta.getAttribute('name'), content_0;
       if (name_0) {
+        name_0 = name_0.replace('geniverse::', '');
+        if (name_0.indexOf('::') >= 0) {
+          continue;
+        }
         if (name_0 == 'gwt:property') {
-          content = meta.getAttribute('content');
-          if (content) {
-            var value, eq = content.indexOf('=');
+          content_0 = meta.getAttribute('content');
+          if (content_0) {
+            var value, eq = content_0.indexOf('=');
             if (eq >= 0) {
-              name_0 = content.substring(0, eq);
-              value = content.substring(eq + 1);
+              name_0 = content_0.substring(0, eq);
+              value = content_0.substring(eq + 1);
             }
              else {
-              name_0 = content;
+              name_0 = content_0;
               value = '';
             }
             metaProps[name_0] = value;
           }
         }
          else if (name_0 == 'gwt:onPropertyErrorFn') {
-          content = meta.getAttribute('content');
-          if (content) {
+          content_0 = meta.getAttribute('content');
+          if (content_0) {
             try {
-              propertyErrorFunc = eval(content);
+              propertyErrorFunc = eval(content_0);
             }
              catch (e) {
-              alert('Bad handler "' + content + '" for "gwt:onPropertyErrorFn"');
+              alert('Bad handler "' + content_0 + '" for "gwt:onPropertyErrorFn"');
             }
           }
         }
          else if (name_0 == 'gwt:onLoadErrorFn') {
-          content = meta.getAttribute('content');
-          if (content) {
+          content_0 = meta.getAttribute('content');
+          if (content_0) {
             try {
-              onLoadErrorFunc = eval(content);
+              onLoadErrorFunc = eval(content_0);
             }
              catch (e) {
-              alert('Bad handler "' + content + '" for "gwt:onLoadErrorFn"');
+              alert('Bad handler "' + content_0 + '" for "gwt:onLoadErrorFn"');
             }
           }
         }
@@ -222,6 +241,7 @@ function geniverse(){
     maybeStartModule();
   }
   ;
+  processMetas();
   computeScriptBase();
   var strongName;
   var initialHtml;
@@ -233,17 +253,21 @@ function geniverse(){
     initialHtml = 'hosted.html?geniverse';
     strongName = '';
   }
-  processMetas();
   $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
   if (!isHostedMode()) {
     try {
-      unflattenKeylistIntoAnswers(['opera'], '6B18CAC9CA51B59E1D057EDDFF74F9FF');
-      unflattenKeylistIntoAnswers(['ie6'], '84A141A2850237774B2DEE046C84F854');
-      unflattenKeylistIntoAnswers(['ie8'], 'A294D639FFB578E63D04A254EE9E52C2');
-      unflattenKeylistIntoAnswers(['safari'], 'EBFBB701D2D58F6DABF5E88EE24FA70D');
-      unflattenKeylistIntoAnswers(['gecko'], 'FB2A9AAABA8196B9D9078EA3E8A9E782');
-      unflattenKeylistIntoAnswers(['gecko1_8'], 'FB2A9AAABA8196B9D9078EA3E8A9E782');
+      unflattenKeylistIntoAnswers(['ie6'], '3CB65008BB125E3A2AEA22F0CE21ED3C');
+      unflattenKeylistIntoAnswers(['ie8'], '3CB65008BB125E3A2AEA22F0CE21ED3C');
+      unflattenKeylistIntoAnswers(['safari'], '50393CAD3EDDA87AC06BC5C50A732A78');
+      unflattenKeylistIntoAnswers(['gecko'], 'B7F8FFA2860F16AB53720766D1B9A8DE');
+      unflattenKeylistIntoAnswers(['gecko1_8'], 'B7F8FFA2860F16AB53720766D1B9A8DE');
+      unflattenKeylistIntoAnswers(['opera'], 'CD8381D54FD8C6BAD6DEEE1D39658E8D');
       strongName = answers[computePropValue('user.agent')];
+      var idx = strongName.indexOf(':');
+      if (idx != -1) {
+        softPermutationId = Number(strongName.substring(idx + 1));
+        strongName = strongName.substring(0, idx);
+      }
       initialHtml = strongName + '.cache.html';
     }
      catch (e) {
