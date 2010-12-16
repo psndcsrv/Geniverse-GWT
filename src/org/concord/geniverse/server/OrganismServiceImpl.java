@@ -110,53 +110,15 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		String filename = generateFilename(dragon, imageSize);
 		
 		return "http://geniverse.dev.concord.org/resources/drakes/images/" + filename;
-		
-//		ServletContext context = getServletContext();
-//		String cacheRealPath = context.getRealPath("/cache");
-//		// String realpath = context.getRealPath("/cache/" + filename);
-//
-//		if (cacheRealPath == null) {
-//			String url = context.getContextPath() + "/cache/unknown.png";
-//			return url;
-//		}
-//
-//		File outputfile = new File(cacheRealPath + "/" + filename);
-//		if (! outputfile.exists()) {
-//		    logger.warning("Image file does not exist for " + dragon.getName() + " (" + dragon.getAlleleString() + "): " + outputfile);
-//		    outputfile.getParentFile().mkdirs();
-//			try {
-//				StaticOrganismView view = new StaticOrganismView();
-//				view.setOrganism(dragon);
-//				try {
-//					BufferedImage image = view.getOrganismImage(dragon, imageSize);
-//					ImageIO.write(image, "png", outputfile);
-//				} catch (java.lang.ExceptionInInitializerError e) {
-//					logger.log(Level.SEVERE, "Couldn't generate a buffered image!", e);
-//				}
-//
-//
-//			} catch (IOException e) {
-//				logger.log(Level.SEVERE, "Couldn't write the image for the organism! " + cacheRealPath + "/" + filename, e);
-//			}
-//		} else {
-//		    // logger.warning("Image file already exists for " + dragon.getName() + " (" + dragon.getAlleleString() + ")(" + cacheRealPath + "/" + filename + "): " + outputfile);
-//		}
-//
-//		return context.getContextPath() + "/cache/" + filename;
 	}
 
 	private String generateFilename(Organism org, int imageSize) {
-//	    StringBuilder path = new StringBuilder();
-//	    path.append(imageSize);
-//	    // FIXME Can we guarantee consistency this way?
-//	    for (String pheno : getOrganismPhenotypes(org)) {
-//	        path.append(File.separator);
-//	        path.append(pheno.toLowerCase().replaceAll("\\s+", "_"));
-//	    }
-//	    path.append(".png");
-//	    // logger.warning("Path for (" + org.getAlleleString(false) + ") is: " + path.toString());
-//		return path.toString();
 		
+		if (getCharacteristic(org, "Liveliness").equalsIgnoreCase("Dead")){
+			return "dead-drake.png";
+		}
+		
+
 		String filename = "";
 
 		// color
