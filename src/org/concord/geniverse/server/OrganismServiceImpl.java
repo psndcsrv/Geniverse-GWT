@@ -1,22 +1,15 @@
 package org.concord.geniverse.server;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 
 import org.concord.biologica.engine.Characteristic;
 import org.concord.biologica.engine.Organism;
 import org.concord.biologica.engine.Species;
 import org.concord.biologica.engine.SpeciesImage;
 import org.concord.biologica.engine.World;
-import org.concord.biologica.ui.StaticOrganismView;
 import org.concord.geniverse.client.GOrganism;
 import org.concord.geniverse.client.OrganismService;
 
@@ -181,7 +174,12 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	
 	private String getCharacteristic(Organism org, String trait) {
 		// rm "Characteristic: "
-		return org.getCharacteristicOfTrait(trait).toString().split(": ")[1];
+	    Characteristic c = org.getCharacteristicOfTrait(trait);
+	    if (c == null) {
+	        // FIXME probably we should do something smarter... throw a custom exception?
+	        return "unknown";
+	    }
+		return c.toString().split(": ")[1];
 	}
 
 	public GOrganism breedOrganism(GOrganism gorg1, GOrganism gorg2) {
