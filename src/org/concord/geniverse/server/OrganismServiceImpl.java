@@ -2,6 +2,7 @@ package org.concord.geniverse.server;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,6 +10,7 @@ import org.concord.biologica.engine.Characteristic;
 import org.concord.biologica.engine.Organism;
 import org.concord.biologica.engine.Species;
 import org.concord.biologica.engine.SpeciesImage;
+import org.concord.biologica.engine.Trait;
 import org.concord.biologica.engine.World;
 import org.concord.geniverse.client.GOrganism;
 import org.concord.geniverse.client.OrganismService;
@@ -32,7 +34,13 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		gOrg.setSex(org.getSex());
 		gOrg.setAlleles(org.getAlleleString());
 		gOrg.setImageURL(getOrganismImageURL(org, SpeciesImage.XLARGE_IMAGE_SIZE));
-		gOrg.setCharacteristics(getOrganismPhenotypes(org));
+		
+		HashMap<String, String> characteristicMap = getOrganismPhenotypes(org);
+		ArrayList<String> phenotypes = new ArrayList<String>();
+		phenotypes.addAll(characteristicMap.values());
+		
+		gOrg.setCharacteristics(phenotypes);
+		gOrg.setCharacteristicMap(characteristicMap);
 		return gOrg;
 	}
 
@@ -66,18 +74,20 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 	public ArrayList<String> getOrganismPhenotypes(GOrganism gOrg) {
 		Organism org = createOrg(gOrg);
-		ArrayList<String> phenotypes = getOrganismPhenotypes(org);
+		ArrayList<String> phenotypes = new ArrayList<String>();
+		phenotypes.addAll(getOrganismPhenotypes(org).values());
 		cleanupWorld(org);
 		return phenotypes;
 	}
 
-	private ArrayList<String> getOrganismPhenotypes(Organism org) {
-		ArrayList<String> phenotypes = new ArrayList<String>();
+	private HashMap<String, String> getOrganismPhenotypes(Organism org) {
+		HashMap<String, String> phenotypes = new HashMap<String, String>();
 
 		Enumeration<Characteristic> chars = org.getCharacteristics();
 		while (chars.hasMoreElements()) {
 			Characteristic c = chars.nextElement();
-			phenotypes.add(c.getName());
+			Trait t = c.getTrait();
+			phenotypes.put(t.getName().toLowerCase(), c.getName());
 		}
 
 		return phenotypes;
@@ -210,7 +220,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
         
         for (int i = 0; i < number; i++) {
             Organism child = new Organism(org1, org2, "child " + i);
-            logger.warning("Bred " + child.getSexAsString() + " child");
+            logger.warning("Bred " + child.getSexAsString() + " child: " + child.getAlleleString(false));
             GOrganism gChild = createGOrg(child);
             
             orgs.add(gChild);
@@ -231,7 +241,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
         
         for (int i = 0; i < number; i++) {
             Organism child = new Organism(org1, org2, "child " + i, crossingOver);
-            logger.warning("Bred " + child.getSexAsString() + " child");
+            logger.warning("Bred " + child.getSexAsString() + " child: " + child.getAlleleString(false));
             GOrganism gChild = createGOrg(child);
             
             orgs.add(gChild);
