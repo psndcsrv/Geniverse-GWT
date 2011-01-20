@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.ServletContext;
+
 import org.concord.biologica.engine.Characteristic;
 import org.concord.biologica.engine.Organism;
 import org.concord.biologica.engine.Species;
@@ -111,8 +113,15 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 	private String getOrganismImageURL(Organism dragon, int imageSize) {
 		String filename = generateFilename(dragon, imageSize);
+		String host = getThreadLocalRequest().getServerName();
+		int port = getThreadLocalRequest().getServerPort();
+		String scheme = getThreadLocalRequest().getScheme();
+		String prefix = scheme + "://" + host;
+		if (port != 80) {
+		    prefix += ":" + Integer.toString(port);
+		}
 		
-		return "http://geniverse.dev.concord.org/resources/drakes/images/" + filename;
+		return prefix + "/resources/drakes/images/" + filename;
 	}
 
 	private String generateFilename(Organism org, int imageSize) {
