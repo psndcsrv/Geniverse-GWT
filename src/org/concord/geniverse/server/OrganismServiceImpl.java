@@ -131,6 +131,8 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		}
 		
 
+		// [color]_[sex]_[wing]_[limbs]_[armor]_[tail]_[horn]_[rostralHorn]_[health].png
+
 		String filename = "";
 
 		// color
@@ -179,12 +181,27 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		filename += armorStr + "_";
 
 		// tail
-		filename += getCharacteristic(org, "Tail")
-				.equalsIgnoreCase("Long tail") ? "fl_" : "sh_";
+	    String tail = getCharacteristic(org, "Tail");
+		String tailStr = "";
+		if (tail.equalsIgnoreCase("Long tail")) {
+			tailStr = "flair";
+		} else if (tail.equalsIgnoreCase("Kinked tail")) {
+			tailStr = "kinked";
+		} else {
+			tailStr = "short";
+		}
+		filename += tailStr + "_";
 
 		// horns
-		filename += getCharacteristic(org, "Horns").equalsIgnoreCase("Horns") ? "horn"
-				: "noHorn";
+		filename += getCharacteristic(org, "Horns").equalsIgnoreCase("Horns") ? "horn_"
+				: "noHorn_";
+		
+		// rostral horn
+		filename += getCharacteristic(org, "Rostral horn").equalsIgnoreCase("Rostral horn") ? "rostral_"
+				: "noRostral_";
+		
+		// health
+		filename += "healthy";
 
 		filename += ".png";
 
