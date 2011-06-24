@@ -186,7 +186,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		if (tail.equalsIgnoreCase("Long tail")) {
 			tailStr = "flair";
 		} else if (tail.equalsIgnoreCase("Kinked tail")) {
-			tailStr = "kinked";
+			tailStr = "kink";
 		} else {
 			tailStr = "short";
 		}
