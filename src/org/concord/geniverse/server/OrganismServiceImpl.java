@@ -197,7 +197,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 				: "noHorn_";
 		
 		// rostral horn
-		filename += getCharacteristic(org, "Rostral horn").equalsIgnoreCase("Rostral horn") ? "rostral_"
+		filename += getCharacteristic(org, "Nose spike").equalsIgnoreCase("Nose spike") ? "rostral_"
 				: "noRostral_";
 		
 		// health
