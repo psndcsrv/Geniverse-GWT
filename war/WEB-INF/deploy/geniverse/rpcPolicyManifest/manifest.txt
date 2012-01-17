@@ -1,0 +1,3 @@
+# Module geniverse
+# RPC service class, partial path of RPC policy file
+org.concord.geniverse.client.OrganismService, C0F006295302104B3411A17233098974.gwt.rpc

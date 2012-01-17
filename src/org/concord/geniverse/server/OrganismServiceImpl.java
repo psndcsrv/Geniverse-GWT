@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.concord.biologica.engine.Characteristic;
 import org.concord.biologica.engine.Organism;
@@ -26,6 +26,13 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	private Species species = world.getCurrentSpecies();
 	private static int currentDragonNumber = 0;
 
+	private void setNoCacheHeaders() {
+		HttpServletResponse response = getThreadLocalResponse();
+		response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Expires", "Fri, 01 Jan 1990 00:00:00 GMT");
+	}
+	
 	private void cleanupWorld(Organism org) {
 		world.deleteOrganism(org);
 	}
@@ -53,6 +60,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 	public GOrganism getOrganism(int sex) {
 		System.out.println("getOrganism(int sex) called:");
+        setNoCacheHeaders();
 		Organism dragon = new Organism(world, sex, "Organism " + (++currentDragonNumber), world.getCurrentSpecies());
 		GOrganism gOrg = createGOrg(dragon);
 		cleanupWorld(dragon);
@@ -60,7 +68,8 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	}
 
 	public GOrganism getOrganism(int sex, String alleles) {
-		Organism dragon = new Organism(world, "Organism " + (++currentDragonNumber), world.getCurrentSpecies(), sex, alleles) ;
+        setNoCacheHeaders();
+		Organism dragon = new Organism(world, "Organism " + (++currentDragonNumber), world.getCurrentSpecies(), sex, alleles);
 		GOrganism gOrg = createGOrg(dragon);
 		cleanupWorld(dragon);
 		return gOrg;
@@ -68,6 +77,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 	public GOrganism getOrganism() {
 		System.out.println("getOrganism(int sex) called:");
+        setNoCacheHeaders();
 		Organism dragon = new Organism(world, Organism.RANDOM_SEX, "Organism " + (++currentDragonNumber), world.getCurrentSpecies());
 		GOrganism gOrg = createGOrg(dragon);
 		cleanupWorld(dragon);
@@ -75,6 +85,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	}
 
 	public ArrayList<String> getOrganismPhenotypes(GOrganism gOrg) {
+        setNoCacheHeaders();
 		Organism org = createOrg(gOrg);
 		ArrayList<String> phenotypes = new ArrayList<String>();
 		phenotypes.addAll(getOrganismPhenotypes(org).values());
@@ -96,6 +107,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	}
 
 	public String getOrganismImageURL() {
+        setNoCacheHeaders();
 		// FIXME cleanup
 		try {
 			return getOrganismImageURL(getOrganism(), SpeciesImage.XLARGE_IMAGE_SIZE);
@@ -105,6 +117,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 	}
 
 	public String getOrganismImageURL(GOrganism organism, int imageSize) {
+        setNoCacheHeaders();
 		Organism dragon = createOrg(organism);
 		String imageUrl = getOrganismImageURL(dragon, imageSize);
 		cleanupWorld(dragon);
@@ -220,6 +233,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
 	public GOrganism breedOrganism(GOrganism gorg1, GOrganism gorg2) {
 		System.out.println("breedOrganism(GOrganism gorg1, GOrganism gorg2) called:");
+		setNoCacheHeaders();
 		Organism org1 = createOrg(gorg1);
 		Organism org2 = createOrg(gorg2);
 		try {
@@ -240,6 +254,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 
     public ArrayList<GOrganism> breedOrganisms(int number, GOrganism gorg1, GOrganism gorg2) {
         logger.warning("Actually breeding " + number + " dragons");
+        setNoCacheHeaders();
         ArrayList<GOrganism> orgs = new ArrayList<GOrganism>(number);
         Organism org1 = createOrg(gorg1);
         Organism org2 = createOrg(gorg2);
@@ -261,6 +276,7 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
     
     public ArrayList<GOrganism> breedOrganismsWithCrossover(int number, GOrganism gorg1, GOrganism gorg2, boolean crossingOver) {
         logger.warning("Actually breeding " + number + " dragons");
+        setNoCacheHeaders();
         ArrayList<GOrganism> orgs = new ArrayList<GOrganism>(number);
         Organism org1 = createOrg(gorg1);
         Organism org2 = createOrg(gorg2);

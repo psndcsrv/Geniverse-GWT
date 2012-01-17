@@ -3,6 +3,7 @@
 	<name>Geniverse</name>
 	<comment></comment>
 	<projects>
+		<project>biologica</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

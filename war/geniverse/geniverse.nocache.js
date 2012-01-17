@@ -42,27 +42,6 @@ function geniverse(){
   }
 
   function computeScriptBase(){
-    if (metaProps['baseUrl']) {
-      base = metaProps['baseUrl'];
-      return base;
-    }
-    var thisScript;
-    var scriptTags = $doc_0.getElementsByTagName('script');
-    for (var i = 0; i < scriptTags.length; ++i) {
-      if (scriptTags[i].src.indexOf('geniverse.nocache.js') != -1) {
-        thisScript = scriptTags[i];
-      }
-    }
-    if (!thisScript) {
-      var markerId = '__gwt_marker_geniverse';
-      var markerScript;
-      $doc_0.write('<script id="' + markerId + '"><\/script>');
-      markerScript = $doc_0.getElementById(markerId);
-      thisScript = markerScript && markerScript.previousSibling;
-      while (thisScript && thisScript.tagName != 'SCRIPT') {
-        thisScript = thisScript.previousSibling;
-      }
-    }
     function getDirectoryOfFile(path){
       var hashIndex = path.lastIndexOf('#');
       if (hashIndex == -1) {
@@ -76,30 +55,80 @@ function geniverse(){
       return slashIndex >= 0?path.substring(0, slashIndex + 1):'';
     }
 
-    ;
-    if (thisScript && thisScript.src) {
-      base = getDirectoryOfFile(thisScript.src);
-    }
-    if (base == '') {
-      var baseElements = $doc_0.getElementsByTagName('base');
-      if (baseElements.length > 0) {
-        base = baseElements[baseElements.length - 1].href;
+    function ensureAbsoluteUrl(url){
+      if (url.match(/^\w+:\/\//)) {
       }
        else {
-        base = getDirectoryOfFile($doc_0.location.href);
+        var img = $doc_0.createElement('img');
+        img.src = url + 'clear.cache.gif';
+        url = getDirectoryOfFile(img.src);
       }
+      return url;
     }
-     else if (base.match(/^\w+:\/\//)) {
+
+    function tryMetaTag(){
+      var metaVal = __gwt_getMetaProperty('baseUrl');
+      if (metaVal != null) {
+        return metaVal;
+      }
+      return '';
     }
-     else {
-      var img = $doc_0.createElement('img');
-      img.src = base + 'clear.cache.gif';
-      base = getDirectoryOfFile(img.src);
+
+    function tryNocacheJsTag(){
+      var scriptTags = $doc_0.getElementsByTagName('script');
+      for (var i = 0; i < scriptTags.length; ++i) {
+        if (scriptTags[i].src.indexOf('geniverse.nocache.js') != -1) {
+          return getDirectoryOfFile(scriptTags[i].src);
+        }
+      }
+      return '';
     }
-    if (markerScript) {
-      markerScript.parentNode.removeChild(markerScript);
+
+    function tryMarkerScript(){
+      var thisScript;
+      if (typeof isBodyLoaded == 'undefined' || !isBodyLoaded()) {
+        var markerId = '__gwt_marker_geniverse';
+        var markerScript;
+        $doc_0.write('<script id="' + markerId + '"><\/script>');
+        markerScript = $doc_0.getElementById(markerId);
+        thisScript = markerScript && markerScript.previousSibling;
+        while (thisScript && thisScript.tagName != 'SCRIPT') {
+          thisScript = thisScript.previousSibling;
+        }
+        if (markerScript) {
+          markerScript.parentNode.removeChild(markerScript);
+        }
+        if (thisScript && thisScript.src) {
+          return getDirectoryOfFile(thisScript.src);
+        }
+      }
+      return '';
     }
-    return base;
+
+    function tryBaseTag(){
+      var baseElements = $doc_0.getElementsByTagName('base');
+      if (baseElements.length > 0) {
+        return baseElements[baseElements.length - 1].href;
+      }
+      return '';
+    }
+
+    var tempBase = tryMetaTag();
+    if (tempBase == '') {
+      tempBase = tryNocacheJsTag();
+    }
+    if (tempBase == '') {
+      tempBase = tryMarkerScript();
+    }
+    if (tempBase == '') {
+      tempBase = tryBaseTag();
+    }
+    if (tempBase == '') {
+      tempBase = getDirectoryOfFile($doc_0.location.href);
+    }
+    tempBase = ensureAbsoluteUrl(tempBase);
+    base = tempBase;
+    return tempBase;
   }
 
   function processMetas(){
@@ -152,6 +181,11 @@ function geniverse(){
     }
   }
 
+  function __gwt_getMetaProperty(name_0){
+    var value = metaProps[name_0];
+    return value == null?null:value;
+  }
+
   function unflattenKeylistIntoAnswers(propValArray, value){
     var answer = answers;
     for (var i = 0, n = propValArray.length - 1; i < n; ++i) {
@@ -196,38 +230,59 @@ function geniverse(){
       return parseInt(result[1]) * 1000 + parseInt(result[2]);
     }
     ;
-    if (ua.indexOf('opera') != -1) {
+    if (function(){
+      return ua.indexOf('opera') != -1;
+    }
+    ())
       return 'opera';
-    }
-     else if (ua.indexOf('webkit') != -1) {
-      return 'safari';
-    }
-     else if (ua.indexOf('msie') != -1) {
-      if (document.documentMode >= 8) {
-        return 'ie8';
-      }
-       else {
-        var result_0 = /msie ([0-9]+)\.([0-9]+)/.exec(ua);
-        if (result_0 && result_0.length == 3) {
-          var v = makeVersion(result_0);
-          if (v >= 6000) {
-            return 'ie6';
+    if (function(){
+      return ua.indexOf('webkit') != -1 || function(){
+        if (ua.indexOf('chromeframe') != -1) {
+          return true;
+        }
+        if (typeof window['ActiveXObject'] != 'undefined') {
+          try {
+            var obj = new ActiveXObject('ChromeTab.ChromeFrame');
+            if (obj) {
+              obj.registerBhoIfNeeded();
+              return true;
+            }
+          }
+           catch (e) {
           }
         }
+        return false;
       }
+      ();
     }
-     else if (ua.indexOf('gecko') != -1) {
-      var result_0 = /rv:([0-9]+)\.([0-9]+)/.exec(ua);
-      if (result_0 && result_0.length == 3) {
-        if (makeVersion(result_0) >= 1008)
-          return 'gecko1_8';
-      }
-      return 'gecko';
+    ())
+      return 'safari';
+    if (function(){
+      return ua.indexOf('msie') != -1 && $doc_0.documentMode >= 9;
     }
+    ())
+      return 'ie9';
+    if (function(){
+      return ua.indexOf('msie') != -1 && $doc_0.documentMode >= 8;
+    }
+    ())
+      return 'ie8';
+    if (function(){
+      var result = /msie ([0-9]+)\.([0-9]+)/.exec(ua);
+      if (result && result.length == 3)
+        return makeVersion(result) >= 6000;
+    }
+    ())
+      return 'ie6';
+    if (function(){
+      return ua.indexOf('gecko') != -1;
+    }
+    ())
+      return 'gecko1_8';
     return 'unknown';
   }
   ;
-  values['user.agent'] = {gecko:0, gecko1_8:1, ie6:2, ie8:3, opera:4, safari:5};
+  values['user.agent'] = {gecko1_8:0, ie6:1, ie8:2, ie9:3, opera:4, safari:5};
   geniverse.onScriptLoad = function(){
     if (frameInjected) {
       loadDone = true;
@@ -256,12 +311,12 @@ function geniverse(){
   $stats && $stats({moduleName:'geniverse', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
   if (!isHostedMode()) {
     try {
-      unflattenKeylistIntoAnswers(['gecko'], '10B1F7B15C375D988761AECCF2D04292');
-      unflattenKeylistIntoAnswers(['gecko1_8'], '10B1F7B15C375D988761AECCF2D04292');
-      unflattenKeylistIntoAnswers(['safari'], '2B55BA3141D23AB8B790C5D47487F938');
-      unflattenKeylistIntoAnswers(['ie6'], '72C82B16ABFB51E68F57EA13A569C0C6');
-      unflattenKeylistIntoAnswers(['ie8'], '72C82B16ABFB51E68F57EA13A569C0C6');
-      unflattenKeylistIntoAnswers(['opera'], 'D6976483BB698CED66ACD005A1BA05B8');
+      unflattenKeylistIntoAnswers(['ie8'], '07E2BE0EF915F17301E533A72C99389E');
+      unflattenKeylistIntoAnswers(['opera'], '0B138126429A065C1C9E787D31919BD1');
+      unflattenKeylistIntoAnswers(['safari'], '11330F62CE32EE06D0A9503276F949CB');
+      unflattenKeylistIntoAnswers(['gecko1_8'], '7F77C89CAD9FED8D735BCCB5E6D033C4');
+      unflattenKeylistIntoAnswers(['ie9'], '99A52DDCAC6A7DA2D47837B80A8CDE0B');
+      unflattenKeylistIntoAnswers(['ie6'], 'D0C4716096C432E24CCD8D20167A61A5');
       strongName = answers[computePropValue('user.agent')];
       var idx = strongName.indexOf(':');
       if (idx != -1) {

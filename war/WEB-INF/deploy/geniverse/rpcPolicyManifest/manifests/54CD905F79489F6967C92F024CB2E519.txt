@@ -1,0 +1,2 @@
+serviceClass: org.concord.geniverse.client.OrganismService
+path: C0F006295302104B3411A17233098974.gwt.rpc
