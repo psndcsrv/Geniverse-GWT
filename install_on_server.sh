@@ -10,6 +10,10 @@ case "$1" in
     export SERVER=seymour.concord.org
     export SERVER_PATH="/web/production/geniverse.gwt"
     ;;
+  genigames)
+    echo "Compile your changes, commit and push them to the Github repo. Then use littlechef to deploy them: fix node:gwt.genigames.concord.org."
+    exit 1
+    ;;
   dev)
     export SERVER=otto.concord.org
     export SERVER_PATH="/web/aaron/geniverse-jetty"
