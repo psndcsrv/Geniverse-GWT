@@ -123,18 +123,25 @@ public class OrganismServiceImpl extends RemoteServiceServlet implements Organis
 		cleanupWorld(dragon);
 		return imageUrl;
 	}
+	
+	private String getImageUrlBase() {
+		String imageUrlBase = getServletContext().getInitParameter("imagesHost");
+		if (imageUrlBase == null) {
+			String host = getThreadLocalRequest().getServerName();
+			int port = getThreadLocalRequest().getServerPort();
+			String scheme = getThreadLocalRequest().getScheme();
+			String prefix = scheme + "://" + host;
+			if (port != 80) {
+			    prefix += ":" + Integer.toString(port);
+			}
+			imageUrlBase = prefix;
+		}
+		return imageUrlBase;
+	}
 
 	private String getOrganismImageURL(Organism dragon, int imageSize) {
 		String filename = generateFilename(dragon, imageSize);
-		String host = getThreadLocalRequest().getServerName();
-		int port = getThreadLocalRequest().getServerPort();
-		String scheme = getThreadLocalRequest().getScheme();
-		String prefix = scheme + "://" + host;
-		if (port != 80) {
-		    prefix += ":" + Integer.toString(port);
-		}
-		
-		return prefix + "/resources/drakes/images/" + filename;
+		return getImageUrlBase() + "/resources/drakes/images/" + filename;
 	}
 
 	private String generateFilename(Organism org, int imageSize) {

@@ -20,5 +20,11 @@
   <welcome-file-list>
     <welcome-file>Geniverse.html</welcome-file>
   </welcome-file-list>
+  
+  <context-param>
+    <param-name>imagesHost</param-name>
+    <param-value>http://resources.genigames.concord.org</param-value>
+    <description>An alternative host on which the dragon images should be based.</description>
+  </context-param>
 
 </web-app>
